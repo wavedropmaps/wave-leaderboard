@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Wave Staff — Milestone Badges</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Exo+2:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;background:#020408;overflow-x:hidden;}
+
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,212,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.02) 1px,transparent 1px);
+  background-size:60px 60px;}
+.bg-orb1{position:fixed;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%);top:-250px;left:-250px;pointer-events:none;z-index:0;animation:o1 14s ease-in-out infinite;}
+.bg-orb2{position:fixed;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(255,0,128,0.04) 0%,transparent 70%);bottom:-350px;right:-350px;pointer-events:none;z-index:0;animation:o2 18s ease-in-out infinite;}
+.bg-orb3{position:fixed;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,170,0,0.03) 0%,transparent 70%);top:45%;left:55%;transform:translate(-50%,-50%);pointer-events:none;z-index:0;animation:o3 11s ease-in-out infinite;}
+@keyframes o1{0%,100%{transform:translate(0,0)}50%{transform:translate(80px,60px)}}
+@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-70px,-90px)}}
+@keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.4)}}
+.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.1) 2px,rgba(0,0,0,0.1) 4px);opacity:.25;}
+
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:#020408;}
+::-webkit-scrollbar-thumb{background:linear-gradient(#00d4ff,#ff0080);border-radius:2px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.6)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes pulse-border{0%,100%{opacity:0.5}50%{opacity:1}}
+
+.tab-btn{transition:all 0.18s cubic-bezier(0.4,0,0.2,1);}
+.tab-btn:hover{transform:translateY(-2px);}
+.row-card{transition:transform 0.2s ease,box-shadow 0.2s ease,background 0.2s ease;}
+.row-card:hover{transform:translateX(4px);}
+
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-orb1"></div>
+<div class="bg-orb2"></div>
+<div class="bg-orb3"></div>
+<div class="scanlines"></div>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+const GITHUB_USER = "wavedropmaps";
+const GITHUB_REPO = "wave-leaderboard";
+const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/milestone_totals.json`;
+
+const DUTIES = {
+  message: { label:"Mod Commands",      emoji:"⚔️",  color:"#00d4ff", desc:"Use moderation commands in any channel",       thresholds:{Bronze:1000,Silver:3000,Gold:8000,Legend:10000,God:50000}},
+  roll:    { label:"Role Giver",         emoji:"👑",  color:"#a78bfa", desc:"Assign roles to members via bot commands",     thresholds:{Bronze:500, Silver:1500,Gold:4000,Legend:5000, God:25000}},
+  req:     { label:"Map Request Helper", emoji:"🗺️", color:"#00ff88", desc:"Help process map requests from the community", thresholds:{Bronze:250, Silver:750, Gold:2000,Legend:2500, God:12500}},
+  purge:   { label:"Purge Perms",        emoji:"🛡️", color:"#ff4466", desc:"Purge messages using moderator permissions",   thresholds:{Bronze:250, Silver:750, Gold:2000,Legend:2500, God:12500}},
+  modlog:  { label:"Mod Log",            emoji:"📋",  color:"#ffaa00", desc:"Log moderation actions and events",            thresholds:{Bronze:50,  Silver:200, Gold:500, Legend:1000, God:10000}},
+};
+const TIERS = ["Bronze","Silver","Gold","Legend","God"];
+const TC = {
+  Bronze:{bg:"linear-gradient(135deg,#2a1200,#1a0a00)",border:"#cd7f32",text:"#fde68a",icon:"🥉",glow:"rgba(205,127,50,0.4)"},
+  Silver:{bg:"linear-gradient(135deg,#141c28,#0c1018)",border:"#c0c0c0",text:"#f3f4f6",icon:"🥈",glow:"rgba(192,192,192,0.3)"},
+  Gold:  {bg:"linear-gradient(135deg,#281800,#180f00)",border:"#ffd700",text:"#fef08a",icon:"🥇",glow:"rgba(255,215,0,0.5)"},
+  Legend:{bg:"linear-gradient(135deg,#180830,#0d0420)",border:"#a78bfa",text:"#e9d5ff",icon:"⚡",glow:"rgba(167,139,250,0.5)"},
+  God:   {bg:"linear-gradient(135deg,#280018,#180010)",border:"#ff0080",text:"#fce7f3",icon:"👑",glow:"rgba(255,0,128,0.6)"},
+};
+
+function getEarnedBadges(scores={}){
+  const b={};
+  for(const [dk,d] of Object.entries(DUTIES)){
+    const s=scores[dk]||0; let hi=null;
+    for(const t of TIERS) if(s>=d.thresholds[t]) hi=t;
+    if(hi) b[dk]=hi;
+  }
+  return b;
+}
+function getTopTier(badges){
+  return TIERS.slice().reverse().find(t=>Object.values(badges).includes(t))||null;
+}
+function getNextTarget(score,dk){
+  const d=DUTIES[dk];
+  for(const t of TIERS) if(score<d.thresholds[t]) return{tier:t,needed:d.thresholds[t]};
+  return null;
+}
+function badgeScore(scores){
+  const b=getEarnedBadges(scores),w={Bronze:1,Silver:2,Gold:4,Legend:8,God:16};
+  return Object.values(b).reduce((s,t)=>s+(w[t]||0),0);
+}
+function getDutyTier(score, dk){
+  const d=DUTIES[dk]; let hi=null;
+  for(const t of TIERS) if(score>=d.thresholds[t]) hi=t;
+  return hi;
+}
+
+/* Mini progress pip row */
+function PipRow({score, dk}){
+  const d=DUTIES[dk];
+  const filled=TIERS.filter(t=>score>=d.thresholds[t]).length;
+  return(
+    <div style={{display:"flex",gap:3,alignItems:"center"}}>
+      {TIERS.map((t,i)=>{
+        const f=i<filled;
+        return <div key={t} title={t} style={{width:8,height:8,borderRadius:2,background:f?d.color:"#0a1220",boxShadow:f?`0 0 6px ${d.color}`:"none",transition:"all 0.3s"}}/>;
+      })}
+    </div>
+  );
+}
+
+/* Tier badge pill */
+function TierPill({tier, size="sm"}){
+  const tc=TC[tier];
+  const fs=size==="lg"?"13px":"10px", py=size==="lg"?"5px 14px":"3px 9px";
+  return(
+    <span style={{display:"inline-flex",alignItems:"center",gap:4,background:tc.bg,border:`1px solid ${tc.border}`,borderRadius:7,padding:py,
+      fontSize:fs,color:tc.text,fontFamily:"'Orbitron',monospace",fontWeight:700,letterSpacing:"0.08em",
+      boxShadow:`0 0 10px ${tc.glow}`,whiteSpace:"nowrap"}}>
+      {tc.icon} {tier.toUpperCase()}
+    </span>
+  );
+}
+
+/* Threshold info block shown at top of each duty section */
+function DutyHeader({dk}){
+  const d=DUTIES[dk];
+  return(
+    <div style={{background:"rgba(3,8,16,0.9)",border:`1px solid ${d.color}22`,borderRadius:16,padding:"22px 26px",marginBottom:18,
+      backdropFilter:"blur(16px)",position:"relative",overflow:"hidden"}}>
+      {/* color accent strip */}
+      <div style={{position:"absolute",top:0,left:0,right:0,height:2,background:`linear-gradient(90deg,transparent,${d.color},transparent)`}}/>
+      <div style={{position:"absolute",top:0,left:0,bottom:0,width:3,background:`linear-gradient(180deg,${d.color},transparent)`,borderRadius:"16px 0 0 16px"}}/>
+
+      {/* Title row */}
+      <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:16}}>
+        <span style={{fontSize:28}}>{d.emoji}</span>
+        <div>
+          <h2 style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:"clamp(15px,2.5vw,20px)",color:d.color,textShadow:`0 0 20px ${d.color}88`,letterSpacing:"0.04em"}}>
+            {d.label}
+          </h2>
+          <p style={{fontSize:11,color:"rgba(255,255,255,0.3)",fontFamily:"'Exo 2',sans-serif",marginTop:2}}>{d.desc}</p>
+        </div>
+      </div>
+
+      {/* HOW TO EARN row */}
+      <div style={{marginBottom:10}}>
+        <div style={{fontSize:8,color:d.color,fontFamily:"'Orbitron',monospace",fontWeight:700,letterSpacing:"0.2em",marginBottom:10,opacity:0.7}}>HOW BADGES ARE EARNED</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:8}}>
+          {TIERS.map(t=>{
+            const tc=TC[t];
+            return(
+              <div key={t} style={{display:"flex",alignItems:"center",gap:8,background:`${tc.border}0d`,border:`1px solid ${tc.border}33`,borderRadius:10,padding:"8px 14px",flex:"1 1 140px"}}>
+                <span style={{fontSize:16}}>{tc.icon}</span>
+                <div>
+                  <div style={{fontSize:9,color:tc.border,fontFamily:"'Orbitron',monospace",fontWeight:700,letterSpacing:"0.1em"}}>{t.toUpperCase()}</div>
+                  <div style={{fontSize:13,color:"rgba(255,255,255,0.85)",fontFamily:"'JetBrains Mono',monospace",fontWeight:700}}>
+                    {d.thresholds[t].toLocaleString()}
+                    <span style={{fontSize:9,color:"rgba(255,255,255,0.3)",marginLeft:3}}>actions</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Single staff row inside a duty section */
+function StaffRow({staff, rank, dk, onClick, delay}){
+  const score = staff.scores[dk]||0;
+  const tier = getDutyTier(score, dk);
+  const tc = tier ? TC[tier] : null;
+  const d = DUTIES[dk];
+  const next = getNextTarget(score, dk);
+
+  // progress pct
+  let pct=0;
+  if(next){
+    const ti=TIERS.indexOf(next.tier);
+    const prev=ti>0?d.thresholds[TIERS[ti-1]]:0;
+    pct=Math.min(100,Math.max(0,((score-prev)/(next.needed-prev))*100));
+  } else { pct=100; }
+
+  return(
+    <div className="row-card" onClick={onClick} style={{
+      display:"grid",gridTemplateColumns:"36px 1fr auto",alignItems:"center",gap:14,
+      background:tier?`${tc.border}07`:"rgba(6,14,24,0.6)",
+      border:`1px solid ${tier?tc.border+"22":"#0a1220"}`,
+      borderRadius:12,padding:"14px 18px",cursor:"pointer",
+      animation:`fadeUp 0.4s ${delay}s ease both`,
+    }}>
+      {/* Rank */}
+      <div style={{textAlign:"center"}}>
+        {rank===1?<span style={{fontSize:18,filter:"drop-shadow(0 0 6px gold)"}}>🥇</span>
+        :rank===2?<span style={{fontSize:18,filter:"drop-shadow(0 0 5px silver)"}}>🥈</span>
+        :rank===3?<span style={{fontSize:18,filter:"drop-shadow(0 0 5px #cd7f32)"}}>🥉</span>
+        :<span style={{fontSize:11,color:"#252d3a",fontFamily:"'Orbitron',monospace",fontWeight:700}}>#{rank}</span>}
+      </div>
+
+      {/* Name + bar */}
+      <div>
+        <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:7}}>
+          <span style={{color:"#dde8f0",fontFamily:"'Exo 2',sans-serif",fontWeight:800,fontSize:14,
+            textShadow:tier?`0 0 10px ${tc.border}44`:"none"}}>{staff.name}</span>
+          {tier && <TierPill tier={tier}/>}
+        </div>
+        {/* progress bar */}
+        <div style={{position:"relative"}}>
+          <div style={{height:4,borderRadius:3,background:"#070d14",border:"1px solid #0f1820",overflow:"hidden"}}>
+            <div style={{height:"100%",borderRadius:3,width:`${pct}%`,
+              background:tier?`linear-gradient(90deg,${tc.border}88,${tc.border})`:`linear-gradient(90deg,${d.color}44,${d.color}88)`,
+              boxShadow:tier?`0 0 8px ${tc.glow}`:"none",transition:"width 1.2s cubic-bezier(0.4,0,0.2,1)"}}/>
+          </div>
+        </div>
+        <div style={{display:"flex",justifyContent:"space-between",marginTop:4}}>
+          <span style={{fontSize:10,color:"rgba(255,255,255,0.2)",fontFamily:"'JetBrains Mono',monospace"}}>
+            {score.toLocaleString()} actions
+          </span>
+          {next && (
+            <span style={{fontSize:10,color:"rgba(255,255,255,0.15)",fontFamily:"'JetBrains Mono',monospace"}}>
+              {(next.needed-score).toLocaleString()} to {TC[next.tier].icon} {next.tier}
+            </span>
+          )}
+          {!next && <span style={{fontSize:10,color:"#ff0080",fontFamily:"'Orbitron',monospace",fontWeight:700}}>MAX 👑</span>}
+        </div>
+      </div>
+
+      {/* Score big */}
+      <div style={{textAlign:"right",minWidth:54}}>
+        <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:16,
+          color:tier?tc.border:d.color,textShadow:tier?`0 0 14px ${tc.glow}`:`0 0 10px ${d.color}66`}}>
+          {score>=1000?(score/1000).toFixed(1)+"k":score}
+        </div>
+        <PipRow score={score} dk={dk}/>
+      </div>
+    </div>
+  );
+}
+
+/* Profile modal */
+function ProfileModal({staff,onClose}){
+  const badges=getEarnedBadges(staff.scores);
+  const top=getTopTier(badges);
+  const tc=top?TC[top]:null;
+  const allRank = staff.rank;
+
+  return(
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.9)",backdropFilter:"blur(20px)",
+      display:"flex",alignItems:"center",justifyContent:"center",zIndex:1000,padding:20}} onClick={onClose}>
+      <div style={{background:"linear-gradient(160deg,#060e18,#030810)",
+        border:`1px solid ${tc?tc.border+"55":"#0f1a28"}`,borderRadius:24,padding:36,maxWidth:560,width:"100%",
+        boxShadow:tc?`0 0 70px ${tc.glow},0 40px 120px rgba(0,0,0,0.98)`:"0 40px 120px rgba(0,0,0,0.98)",
+        maxHeight:"90vh",overflowY:"auto",animation:"fadeUp 0.28s ease",position:"relative"}}
+        onClick={e=>e.stopPropagation()}>
+
+        {tc&&<div style={{position:"absolute",top:0,left:0,right:0,height:2,borderRadius:"24px 24px 0 0",
+          background:`linear-gradient(90deg,transparent,${tc.border},transparent)`,opacity:0.9}}/>}
+
+        {/* Header */}
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:28}}>
+          <div style={{display:"flex",alignItems:"center",gap:16}}>
+            <div style={{width:60,height:60,borderRadius:15,background:tc?tc.bg:"#070d14",
+              border:`2px solid ${tc?tc.border+"77":"#0f1a28"}`,display:"flex",alignItems:"center",
+              justifyContent:"center",fontSize:26,fontFamily:"'Orbitron',monospace",fontWeight:900,
+              color:tc?tc.border:"#222",boxShadow:tc?`0 0 24px ${tc.glow}`:"none"}}>
+              {staff.name[0].toUpperCase()}
+            </div>
+            <div>
+              <h2 style={{color:"#f0f4f8",fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:20,
+                textShadow:tc?`0 0 20px ${tc.border}`:"none",marginBottom:6}}>{staff.name}</h2>
+              <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
+                {top && <TierPill tier={top} size="lg"/>}
+                <span style={{fontSize:11,color:"#2a3545",fontFamily:"'JetBrains Mono',monospace"}}>
+                  {Object.keys(badges).length} badge{Object.keys(badges).length!==1?"s":""} earned
+                </span>
+              </div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{background:"#070d14",border:"1px solid #0f1a28",borderRadius:9,color:"#333",
+            cursor:"pointer",padding:"8px 14px",fontSize:16,transition:"all 0.2s",lineHeight:1}}>✕</button>
+        </div>
+
+        {/* Per-duty breakdown */}
+        <div style={{fontSize:9,color:"#00d4ff",fontFamily:"'Orbitron',monospace",fontWeight:700,
+          letterSpacing:"0.2em",marginBottom:14,textShadow:"0 0 10px #00d4ff66"}}>📊 DUTY BREAKDOWN</div>
+
+        {Object.entries(DUTIES).map(([dk,d])=>{
+          const score=staff.scores[dk]||0;
+          const tier=getDutyTier(score,dk);
+          const tc2=tier?TC[tier]:null;
+          const next=getNextTarget(score,dk);
+          let pct=0;
+          if(next){const ti=TIERS.indexOf(next.tier);const prev=ti>0?d.thresholds[TIERS[ti-1]]:0;pct=Math.min(100,((score-prev)/(next.needed-prev))*100);}
+          else pct=100;
+          return(
+            <div key={dk} style={{background:"rgba(3,8,16,0.8)",border:`1px solid ${d.color}18`,borderRadius:12,
+              padding:"14px 16px",marginBottom:10}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                <span style={{fontSize:13,color:d.color,fontFamily:"'Exo 2',sans-serif",fontWeight:800}}>
+                  {d.emoji} {d.label}
+                </span>
+                <div style={{display:"flex",alignItems:"center",gap:8}}>
+                  {tier && <TierPill tier={tier}/>}
+                  <span style={{fontSize:13,color:"rgba(255,255,255,0.7)",fontFamily:"'JetBrains Mono',monospace",fontWeight:700}}>
+                    {score.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+              <div style={{height:4,borderRadius:3,background:"#070d14",overflow:"hidden"}}>
+                <div style={{height:"100%",borderRadius:3,width:`${pct}%`,
+                  background:tier?`linear-gradient(90deg,${tc2.border}88,${tc2.border})`:`linear-gradient(90deg,${d.color}44,${d.color}88)`,
+                  boxShadow:tier?`0 0 8px ${tc2.glow}`:"none"}}/>
+              </div>
+              {next && (
+                <div style={{marginTop:5,fontSize:10,color:"rgba(255,255,255,0.2)",fontFamily:"'JetBrains Mono',monospace",textAlign:"right"}}>
+                  {(next.needed-score).toLocaleString()} more → {TC[next.tier].icon} {next.tier}
+                </div>
+              )}
+              {!next && (
+                <div style={{marginTop:5,fontSize:10,color:"#ff0080",fontFamily:"'Orbitron',monospace",fontWeight:700,textAlign:"right"}}>
+                  👑 MAX REACHED
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* DEMO DATA */
+const DEMO=[
+  {name:"fleck.777",      scores:{message:12400,roll:4800,req:980, purge:3100,modlog:620}},
+  {name:"slaxmgmt",       scores:{message:9800, roll:6200,req:2400,purge:1800,modlog:430}},
+  {name:"luan_fv.",       scores:{message:6100, roll:2900,req:3200,purge:800, modlog:155}},
+  {name:"ztrytytka",      scores:{message:3500, roll:1200,req:420, purge:550, modlog:88}},
+  {name:"blanket_god",    scores:{message:2200, roll:900, req:180, purge:300, modlog:210}},
+  {name:"meandme7634567", scores:{message:1100, roll:400, req:95,  purge:180, modlog:62}},
+  {name:"banana.lecl3rc", scores:{message:800,  roll:310, req:45,  purge:90,  modlog:30}},
+  {name:"joaco_t6",       scores:{message:500,  roll:200, req:30,  purge:60,  modlog:12}},
+];
+
+function App(){
+  const [staffList,setStaffList]=useState(DEMO);
+  const [selected,setSelected]=useState(null);
+  const [search,setSearch]=useState("");
+  const [loaded,setLoaded]=useState(false);
+  const [lastSync,setLastSync]=useState(null);
+  const [dataSource,setDataSource]=useState("demo");
+  const [activeTab,setActiveTab]=useState("all"); // "all" | duty key
+
+  useEffect(()=>{
+    (async()=>{
+      try{
+        const r=await fetch(DATA_URL+"?t="+Date.now());
+        if(r.ok){
+          const j=await r.json();
+          const s=Object.entries(j).map(([name,scores])=>({name,scores}));
+          if(s.length>0){setStaffList(s);setLastSync(new Date().toISOString());setDataSource("github");setLoaded(true);return;}
+        }
+      }catch{}
+      setLoaded(true);
+    })();
+  },[]);
+
+  const filtered = staffList.filter(s=>s.name.toLowerCase().includes(search.toLowerCase()));
+  const totalBadges = staffList.reduce((n,s)=>n+Object.keys(getEarnedBadges(s.scores)).length,0);
+
+  // Sort staff by score for a specific duty
+  function sortedByDuty(dk){
+    return [...filtered].sort((a,b)=>(b.scores[dk]||0)-(a.scores[dk]||0));
+  }
+  // Sort overall
+  const overallSorted = [...filtered].sort((a,b)=>badgeScore(b.scores)-badgeScore(a.scores));
+
+  if(!loaded) return(
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",flexDirection:"column",gap:14,position:"relative",zIndex:2}}>
+      <div style={{fontSize:34,animation:"glow 1s infinite"}}>⚡</div>
+      <span style={{color:"#00d4ff",fontFamily:"'Orbitron',monospace",fontSize:12,letterSpacing:"0.25em",textShadow:"0 0 20px #00d4ff"}}>LOADING...</span>
+    </div>
+  );
+
+  const dutyKeys = Object.keys(DUTIES);
+  const tabs = ["all", ...dutyKeys];
+
+  return(
+    <div style={{minHeight:"100vh",padding:"50px 20px 100px",position:"relative",zIndex:2}}>
+
+      {/* ── HEADER ── */}
+      <div style={{textAlign:"center",marginBottom:44,animation:"fadeDown 0.6s ease"}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:8,background:"rgba(0,212,255,0.04)",border:"1px solid rgba(0,212,255,0.1)",borderRadius:100,padding:"6px 20px",marginBottom:20}}>
+          <div style={{width:7,height:7,borderRadius:"50%",background:"#00ff88",boxShadow:"0 0 8px #00ff88",animation:"glow 2s infinite"}}/>
+          <span style={{fontSize:9,color:"rgba(0,212,255,0.55)",fontFamily:"'Orbitron',monospace",letterSpacing:"0.16em"}}>
+            WAVE MANAGEMENT · LIVE{lastSync?` · SYNCED ${new Date(lastSync).toLocaleDateString().toUpperCase()}`:""}
+          </span>
+        </div>
+
+        <h1 style={{fontSize:"clamp(40px,8vw,88px)",fontWeight:900,fontFamily:"'Orbitron',monospace",
+          background:"linear-gradient(135deg,#00d4ff 0%,#ffffff 45%,#ff0080 100%)",
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
+          letterSpacing:"-0.02em",lineHeight:1,filter:"drop-shadow(0 0 40px rgba(0,212,255,0.2))",marginBottom:2}}>
+          MILESTONE
+        </h1>
+        <div style={{fontSize:"clamp(13px,2.5vw,22px)",fontWeight:400,fontFamily:"'Orbitron',monospace",
+          color:"rgba(255,255,255,0.15)",letterSpacing:"0.45em",marginBottom:16}}>BADGES</div>
+
+        <div style={{display:"flex",justifyContent:"center",gap:20,flexWrap:"wrap"}}>
+          <span style={{fontSize:11,color:"#1a2535",fontFamily:"'JetBrains Mono',monospace"}}>{staffList.length} STAFF</span>
+          <span style={{fontSize:11,color:"#1a2535",fontFamily:"'JetBrains Mono',monospace"}}>·</span>
+          <span style={{fontSize:11,color:"#1a2535",fontFamily:"'JetBrains Mono',monospace"}}>{totalBadges} BADGES AWARDED</span>
+        </div>
+
+        {dataSource==="demo"&&(
+          <div style={{marginTop:14,display:"inline-flex",alignItems:"center",gap:7,background:"rgba(255,170,0,0.04)",border:"1px solid rgba(255,170,0,0.15)",borderRadius:8,padding:"5px 14px",fontSize:9,color:"#ffaa00",fontFamily:"'JetBrains Mono',monospace"}}>
+            ⚠️ DEMO DATA — bot syncs real scores automatically
+          </div>
+        )}
+        {dataSource==="github"&&(
+          <div style={{marginTop:14,display:"inline-flex",alignItems:"center",gap:7,background:"rgba(0,255,136,0.04)",border:"1px solid rgba(0,255,136,0.15)",borderRadius:8,padding:"5px 14px",fontSize:9,color:"#00ff88",fontFamily:"'JetBrains Mono',monospace"}}>
+            ✅ LIVE DATA — auto-updated by bot
+          </div>
+        )}
+      </div>
+
+      {/* ── SEARCH ── */}
+      <div style={{display:"flex",justifyContent:"center",marginBottom:32}}>
+        <div style={{position:"relative"}}>
+          <span style={{position:"absolute",left:14,top:"50%",transform:"translateY(-50%)",color:"#1a2535",fontSize:13}}>🔍</span>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="SEARCH STAFF..."
+            style={{background:"rgba(6,14,24,0.9)",border:"1px solid #0a1220",borderRadius:11,color:"#c0ccd8",
+              padding:"10px 16px 10px 40px",fontSize:11,width:260,fontFamily:"'Orbitron',monospace",outline:"none",
+              letterSpacing:"0.08em",transition:"border-color 0.2s"}}
+            onFocus={e=>e.target.style.borderColor="rgba(0,212,255,0.3)"}
+            onBlur={e=>e.target.style.borderColor="#0a1220"}/>
+        </div>
+      </div>
+
+      {/* ── DUTY TABS ── */}
+      <div style={{display:"flex",justifyContent:"center",flexWrap:"wrap",gap:8,marginBottom:38}}>
+        {tabs.map(t=>{
+          const isAll=t==="all";
+          const d=isAll?null:DUTIES[t];
+          const active=activeTab===t;
+          return(
+            <button key={t} className="tab-btn" onClick={()=>setActiveTab(t)} style={{
+              background:active?(isAll?"rgba(0,212,255,0.1)":d.color+"15"):"rgba(6,14,24,0.85)",
+              border:`1px solid ${active?(isAll?"#00d4ff":d.color):"#0a1220"}`,
+              borderRadius:10,padding:"8px 18px",
+              color:active?(isAll?"#00d4ff":d.color):"#252d3a",
+              cursor:"pointer",fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:9,letterSpacing:"0.1em",
+              display:"flex",alignItems:"center",gap:6,
+              boxShadow:active?(isAll?"0 0 20px rgba(0,212,255,0.2)":`0 0 20px ${d.color}33`):"none",
+            }}>
+              {isAll?"◈ ALL DUTIES":`${d.emoji} ${d.label}`}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── CONTENT ── */}
+      <div style={{maxWidth:900,margin:"0 auto"}}>
+
+        {/* ALL DUTIES VIEW — one section per duty */}
+        {activeTab==="all" && dutyKeys.map((dk,si)=>{
+          const d=DUTIES[dk];
+          const ranked=sortedByDuty(dk);
+          return(
+            <div key={dk} style={{marginBottom:48,animation:`fadeUp 0.5s ${si*0.08}s ease both`}}>
+              <DutyHeader dk={dk}/>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {ranked.map((s,i)=>(
+                  <StaffRow key={s.name} staff={s} rank={i+1} dk={dk} delay={0} onClick={()=>setSelected(s)}/>
+                ))}
+                {ranked.length===0&&(
+                  <div style={{textAlign:"center",color:"#0a1220",fontFamily:"'Orbitron',monospace",padding:40,fontSize:10,letterSpacing:"0.2em"}}>
+                    NO STAFF FOUND
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* SINGLE DUTY TAB VIEW */}
+        {activeTab!=="all" && (()=>{
+          const dk=activeTab;
+          const ranked=sortedByDuty(dk);
+          return(
+            <div style={{animation:"fadeUp 0.4s ease both"}}>
+              <DutyHeader dk={dk}/>
+              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+                {ranked.map((s,i)=>(
+                  <StaffRow key={s.name} staff={s} rank={i+1} dk={dk} delay={i*0.04} onClick={()=>setSelected(s)}/>
+                ))}
+                {ranked.length===0&&(
+                  <div style={{textAlign:"center",color:"#0a1220",fontFamily:"'Orbitron',monospace",padding:60,fontSize:10,letterSpacing:"0.2em"}}>
+                    NO STAFF FOUND
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+
+      {/* ── FOOTER CODE ── */}
+      <div style={{maxWidth:900,margin:"56px auto 0",textAlign:"center",padding:"24px",
+        background:"rgba(6,14,24,0.6)",border:"1px solid rgba(255,170,0,0.1)",borderRadius:18,backdropFilter:"blur(10px)"}}>
+        <span style={{fontSize:14,color:"#1e2a38",fontFamily:"'Exo 2',sans-serif",fontWeight:600}}>Use Code </span>
+        <span style={{fontSize:18,fontFamily:"'Orbitron',monospace",fontWeight:900,
+          background:"linear-gradient(135deg,#ffaa00,#ffd700,#ffcc44,#ffaa00)",backgroundSize:"200% auto",
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
+          animation:"shimmer 3s linear infinite",filter:"drop-shadow(0 0 14px rgba(255,170,0,0.45))",letterSpacing:"0.04em"}}>
+          wavedropmaps
+        </span>
+        <span style={{fontSize:14,color:"#1e2a38",fontFamily:"'Exo 2',sans-serif",fontWeight:600}}> in the Item Shop!</span>
+      </div>
+
+      {selected&&<ProfileModal staff={selected} onClose={()=>setSelected(null)}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
