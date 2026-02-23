@@ -1,104 +1,175 @@
 {
   "slaxmgmt": {
     "purge": 3714,
-    "modlog": 488,
-    "req": 2602,
+    "purge_weekly": 276,
     "role": 6207,
-    "message": 10100
+    "modlog": 488,
+    "modlog_weekly": 36,
+    "req": 2602,
+    "req_weekly": 149,
+    "role_weekly": 280,
+    "message": 10100,
+    "message_weekly": 823
   },
   "meandme7634567": {
     "purge": 676,
-    "modlog": 330,
-    "req": 800,
+    "purge_weekly": 35,
     "role": 2393,
-    "message": 1928
+    "modlog": 330,
+    "modlog_weekly": 15,
+    "req": 800,
+    "req_weekly": 11,
+    "role_weekly": 94,
+    "message": 1928,
+    "message_weekly": 113
   },
   "fleck.777": {
     "purge": 206,
-    "modlog": 112,
-    "req": 154,
+    "purge_weekly": 48,
     "role": 583,
-    "message": 3068
+    "modlog": 112,
+    "modlog_weekly": 23,
+    "req": 154,
+    "req_weekly": 14,
+    "role_weekly": 101,
+    "message": 3068,
+    "message_weekly": 785
   },
   "itsdolphin": {
     "purge": 15,
-    "modlog": 54,
+    "purge_weekly": 15,
     "role": 668,
-    "message": 954
+    "modlog": 54,
+    "modlog_weekly": 18,
+    "role_weekly": 42,
+    "message": 954,
+    "message_weekly": 89
   },
   "vidalupla": {
     "purge": 0,
-    "modlog": 4,
+    "purge_weekly": 0,
     "role": 271,
-    "message": 781
+    "modlog": 4,
+    "modlog_weekly": 4,
+    "role_weekly": 179,
+    "message": 781,
+    "message_weekly": 249
   },
   "ztrytytka": {
     "purge": 179,
-    "modlog": 17,
+    "purge_weekly": 9,
     "role": 953,
-    "message": 250
+    "modlog": 17,
+    "modlog_weekly": 6,
+    "role_weekly": 52,
+    "message": 250,
+    "message_weekly": 56
   },
   "fruss.": {
     "modlog": 86,
-    "message": 7341
+    "modlog_weekly": 5,
+    "role": "Founder",
+    "message": 7341,
+    "message_weekly": 623
   },
   "psychosystems": {
     "modlog": 13,
-    "message": 1671
+    "modlog_weekly": 0,
+    "role": "Head Dropmaps",
+    "message": 1671,
+    "message_weekly": 47
   },
   "joaco_t6": {
     "modlog": 315,
-    "req": 1674,
+    "modlog_weekly": 15,
     "role": 1485,
-    "message": 3669
+    "req": 1674,
+    "req_weekly": 29,
+    "role_weekly": 7,
+    "message": 3669,
+    "message_weekly": 92
   },
   "luan_fv.": {
     "modlog": 68,
+    "modlog_weekly": 5,
+    "role": "Senior Support",
     "req": 705,
-    "message": 3679
+    "req_weekly": 31,
+    "message": 3679,
+    "message_weekly": 291
   },
   "banana.lecl3rc": {
     "modlog": 36,
+    "modlog_weekly": 0,
     "role": 358,
-    "message": 1013
+    "role_weekly": 4,
+    "message": 1013,
+    "message_weekly": 2
   },
   "svgsavrixyt": {
     "modlog": 9,
+    "modlog_weekly": 1,
     "role": 319,
-    "message": 272
+    "role_weekly": 46,
+    "message": 272,
+    "message_weekly": 41
   },
   "multichromeplus": {
     "modlog": 17,
-    "message": 578
+    "modlog_weekly": 0,
+    "role": "Staff",
+    "message": 578,
+    "message_weekly": 33
   },
   "raphammer": {
     "modlog": 19,
-    "message": 1168
+    "modlog_weekly": 1,
+    "role": "Staff",
+    "message": 1168,
+    "message_weekly": 72
   },
   "xenoborg_": {
     "modlog": 0,
-    "message": 948
+    "modlog_weekly": 0,
+    "role": "Staff",
+    "message": 948,
+    "message_weekly": 422
   },
   "1voidfn": {
     "modlog": 0,
-    "message": 5
+    "modlog_weekly": 0,
+    "role": "Trial Staff",
+    "message": 5,
+    "message_weekly": 5
   },
   "duckyee_.": {
     "modlog": 0,
+    "modlog_weekly": 0,
     "role": 8,
-    "message": 0
+    "role_weekly": 8,
+    "message": 0,
+    "message_weekly": 0
   },
   "jimbobfnr": {
     "modlog": 0,
-    "message": 206
+    "modlog_weekly": 0,
+    "role": "Trial Staff",
+    "message": 206,
+    "message_weekly": 182
   },
   "seekfnx": {
     "modlog": 0,
-    "message": 2
+    "modlog_weekly": 0,
+    "role": "Trial Staff",
+    "message": 2,
+    "message_weekly": 2
   },
   "veroxzf": {
     "modlog": 0,
+    "modlog_weekly": 0,
     "role": 90,
-    "message": 491
+    "role_weekly": 56,
+    "message": 491,
+    "message_weekly": 465
   }
 }
