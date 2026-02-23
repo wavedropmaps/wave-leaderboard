@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Wave Staff — Milestone Badges</title>
+
+<!-- Discord / Open Graph embed -->
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://wavedropmaps.github.io/wave-leaderboard/"/>
+<meta property="og:title" content="🌊 Wave Staff — Milestone Badges"/>
+<meta property="og:description" content="Live leaderboard tracking staff activity across Messages, Roles, Map Requests, Purge, and Mod Commands. Earn Bronze → God tier badges and climb the Power Points rankings."/>
+<meta property="og:image" content="https://wavedropmaps.github.io/wave-leaderboard/preview.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="theme-color" content="#00d4ff"/>
+
+<!-- Twitter card (also used by some Discord clients) -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="🌊 Wave Staff — Milestone Badges"/>
+<meta name="twitter:description" content="Live leaderboard tracking staff activity across Messages, Roles, Map Requests, Purge, and Mod Commands."/>
+<meta name="twitter:image" content="https://wavedropmaps.github.io/wave-leaderboard/preview.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Exo+2:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;background:#03060d;overflow-x:hidden;}
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;}
+.orb1{width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.055) 0%,transparent 70%);top:-280px;left:-280px;animation:o1 16s ease-in-out infinite;}
+.orb2{width:1000px;height:1000px;background:radial-gradient(circle,rgba(255,0,128,0.04) 0%,transparent 70%);bottom:-380px;right:-380px;animation:o2 20s ease-in-out infinite;}
+.orb3{width:600px;height:600px;background:radial-gradient(circle,rgba(255,170,0,0.03) 0%,transparent 70%);top:40%;left:50%;transform:translate(-50%,-50%);animation:o3 13s ease-in-out infinite;}
+@keyframes o1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,50px)}}
+@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+@keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}}
+.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.08) 3px,rgba(0,0,0,0.08) 4px);opacity:.25;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:#03060d;}::-webkit-scrollbar-thumb{background:linear-gradient(#00d4ff,#ff0080);border-radius:2px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes glow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.7)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+@keyframes pulse{0%,100%{opacity:0.6}50%{opacity:1}}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes podiumRise{from{opacity:0;transform:translateY(40px) scale(0.92)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes crownBob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-6px) rotate(5deg)}}
+@keyframes goldPulse{0%,100%{box-shadow:0 0 20px rgba(255,215,0,0.4),0 0 60px rgba(255,215,0,0.15)}50%{box-shadow:0 0 35px rgba(255,215,0,0.7),0 0 80px rgba(255,215,0,0.25)}}
+@keyframes silverPulse{0%,100%{box-shadow:0 0 14px rgba(184,196,208,0.3)}50%{box-shadow:0 0 26px rgba(184,196,208,0.55)}}
+@keyframes bronzePulse{0%,100%{box-shadow:0 0 10px rgba(205,127,50,0.3)}50%{box-shadow:0 0 22px rgba(205,127,50,0.5)}}
+@keyframes progressFill{from{width:0}to{width:var(--target-width)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:translateX(0)}}
+@keyframes hallFame{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.row-card{transition:transform 0.16s ease,border-color 0.16s ease,box-shadow 0.16s ease;}
+.row-card:hover{transform:translateX(4px);box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.tab-btn{transition:all 0.14s ease;cursor:pointer;border:none;}
+.tab-btn:hover{transform:translateY(-2px);}
+.view-all-btn{transition:all 0.15s ease;cursor:pointer;}
+.view-all-btn:hover{transform:translateX(3px);}
+.close-btn:hover{background:#111c28!important;color:#ccc!important;}
+.search-wrap input:focus{outline:none;}
+.sort-btn{transition:all 0.14s ease;cursor:pointer;border:none;}
+.sort-btn:hover{opacity:1!important;}
+.tier-filter-btn{transition:all 0.14s ease;cursor:pointer;border:none;}
+.tier-filter-btn:hover{transform:translateY(-1px);}
+.podium-card{transition:transform 0.2s ease;}
+.podium-card:hover{transform:translateY(-4px);}
+.copy-btn:hover{opacity:1!important;transform:scale(1.04);}
+.explainer-toggle:hover{opacity:0.8!important;}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="scanlines"></div>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+const GITHUB_USER = "wavedropmaps";
+const GITHUB_REPO = "wave-leaderboard";
+const DATA_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/milestone_totals.json`;
+
+const DUTIES = {
+  message:{ label:"Messages",           short:"MESSAGES",  emoji:"⚔️",  color:"#00d4ff", desc:"Messages sent in the server",                    thresholds:{Bronze:1000,Silver:3000,Gold:8000,Legend:10000,God:50000}},
+  role:   { label:"Role Giver",         short:"ROLES",    emoji:"✨", color:"#a78bfa", desc:"Help process proof from the community",            thresholds:{Bronze:500, Silver:1500,Gold:4000,Legend:5000, God:25000}},
+  req:    { label:"Map Request Helper", short:"REQUESTS", emoji:"🗺️", color:"#00ff88", desc:"Help process map requests from the community",     thresholds:{Bronze:250, Silver:750, Gold:2000,Legend:2500, God:12500}},
+  purge:  { label:"Purge Perms",        short:"PURGE",    emoji:"🛡️", color:"#ff4466", desc:"Help manage proof from the community",             thresholds:{Bronze:250, Silver:750, Gold:2000,Legend:2500, God:12500}},
+  modlog: { label:"Mod Commands",       short:"MOD CMD",  emoji:"📋",  color:"#ffaa00", desc:"Mod commands executed to help keep community safe",thresholds:{Bronze:50,  Silver:200, Gold:500, Legend:1000, God:10000}},
+};
+const TIERS = ["Bronze","Silver","Gold","Legend","God"];
+const TC = {
+  Bronze:{bg:"linear-gradient(135deg,#2a1200,#1a0a00)", border:"#cd7f32", text:"#fde68a", icon:"🥉", glow:"rgba(205,127,50,0.45)"},
+  Silver:{bg:"linear-gradient(135deg,#141c28,#0c1018)", border:"#b8c4d0", text:"#f0f4f8", icon:"🥈", glow:"rgba(184,196,208,0.35)"},
+  Gold:  {bg:"linear-gradient(135deg,#281800,#180f00)", border:"#ffd700", text:"#fef08a", icon:"🥇", glow:"rgba(255,215,0,0.55)"},
+  Legend:{bg:"linear-gradient(135deg,#180830,#0d0420)", border:"#a78bfa", text:"#e9d5ff", icon:"⚡", glow:"rgba(167,139,250,0.55)"},
+  God:   {bg:"linear-gradient(135deg,#280018,#180010)", border:"#ff0080", text:"#fce7f3", icon:"👑", glow:"rgba(255,0,128,0.65)"},
+};
+
+function getEarnedBadges(scores={}){
+  const b={};
+  for(const [dk,d] of Object.entries(DUTIES)){
+    const s=scores[dk]||0; let hi=null;
+    for(const t of TIERS) if(s>=d.thresholds[t]) hi=t;
+    if(hi) b[dk]=hi;
+  }
+  return b;
+}
+function getTopTier(badges){
+  return TIERS.slice().reverse().find(t=>Object.values(badges).includes(t))||null;
+}
+function getNextTarget(score,dk){
+  const d=DUTIES[dk];
+  for(const t of TIERS) if(score<d.thresholds[t]) return{tier:t,needed:d.thresholds[t]};
+  return null;
+}
+function getDutyTier(score,dk){
+  const d=DUTIES[dk]; let hi=null;
+  for(const t of TIERS) if(score>=d.thresholds[t]) hi=t;
+  return hi;
+}
+function badgeScore(scores){
+  const b=getEarnedBadges(scores),w={Bronze:1,Silver:2,Gold:4,Legend:8,God:16};
+  return Object.values(b).reduce((s,t)=>s+(w[t]||0),0);
+}
+function getDominantDuty(scores){
+  let best=null, bestPct=0;
+  for(const [dk,d] of Object.entries(DUTIES)){
+    const sc=scores[dk]||0;
+    const max=d.thresholds.God;
+    const pct=sc/max;
+    if(pct>bestPct){bestPct=pct;best=dk;}
+  }
+  return best;
+}
+function fmt(n){
+  if(n>=1000) return (n/1000).toFixed(1).replace(/\.0$/,"")+"k";
+  return String(n);
+}
+
+// Animated counter hook
+function useCountUp(target, duration=1200, active=true){
+  const [val,setVal]=useState(0);
+  useEffect(()=>{
+    if(!active){setVal(target);return;}
+    let start=null;
+    const step=(ts)=>{
+      if(!start) start=ts;
+      const progress=Math.min((ts-start)/duration,1);
+      const eased=1-Math.pow(1-progress,3);
+      setVal(Math.floor(eased*target));
+      if(progress<1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  },[target,active]);
+  return val;
+}
+
+function AnimatedNumber({value,duration=1000}){
+  const v=useCountUp(value,duration,true);
+  return <span>{fmt(v)}</span>;
+}
+
+function TierPill({tier,size="sm"}){
+  const tc=TC[tier], big=size==="lg";
+  return(
+    <span style={{display:"inline-flex",alignItems:"center",gap:big?5:3,
+      background:tc.bg,border:`1px solid ${tc.border}`,borderRadius:6,
+      padding:big?"5px 13px":"2px 8px",fontSize:big?12:9,color:tc.text,
+      fontFamily:"'Orbitron',monospace",fontWeight:700,letterSpacing:"0.1em",
+      boxShadow:`0 0 12px ${tc.glow}`,whiteSpace:"nowrap"}}>
+      {tc.icon} {tier.toUpperCase()}
+    </span>
+  );
+}
+
+function PipRow({score,dk}){
+  const d=DUTIES[dk];
+  const filled=TIERS.filter(t=>score>=d.thresholds[t]).length;
+  return(
+    <div style={{display:"flex",gap:3,alignItems:"center"}}>
+      {TIERS.map((t,i)=>{
+        const f=i<filled, col=TC[t].border;
+        return <div key={t} title={`${t}: ${d.thresholds[t].toLocaleString()}`} style={{
+          width:7,height:7,borderRadius:"50%",
+          background:f?col:"#0d1a26",
+          boxShadow:f?`0 0 7px ${col}`:"none",
+          border:f?"none":"1px solid #111e2e",
+          transition:"all 0.3s",
+        }}/>;
+      })}
+    </div>
+  );
+}
+
+function TierBreakdown({dk}){
+  const d=DUTIES[dk];
+  return(
+    <div style={{
+      display:"flex",flexWrap:"wrap",gap:5,
+      padding:"14px 18px 14px",
+      background:"rgba(2,5,12,0.7)",
+      borderRadius:"0 0 14px 14px",
+      borderLeft:`1px solid ${d.color}22`,
+      borderRight:`1px solid ${d.color}22`,
+      borderBottom:`1px solid ${d.color}22`,
+      marginBottom:8,
+    }}>
+      <div style={{width:"100%",fontSize:8,color:d.color,fontFamily:"'Orbitron',monospace",
+        fontWeight:700,letterSpacing:"0.22em",marginBottom:8,opacity:0.55}}>
+        ◈ HOW TO EARN EACH BADGE
+      </div>
+      {TIERS.map(t=>{
+        const tc=TC[t];
+        return(
+          <div key={t} style={{
+            display:"flex",alignItems:"center",gap:7,
+            background:`${tc.border}0a`,
+            border:`1px solid ${tc.border}25`,
+            borderRadius:8,padding:"6px 11px",
+            flex:"1 1 100px",minWidth:95,
+          }}>
+            <span style={{fontSize:16,lineHeight:1}}>{tc.icon}</span>
+            <div>
+              <div style={{fontSize:8,color:tc.border,fontFamily:"'Orbitron',monospace",
+                fontWeight:700,letterSpacing:"0.12em",marginBottom:2}}>{t.toUpperCase()}</div>
+              <div style={{fontSize:13,color:"rgba(255,255,255,0.88)",
+                fontFamily:"'JetBrains Mono',monospace",fontWeight:700,lineHeight:1}}>
+                {d.thresholds[t].toLocaleString()}
+                <span style={{fontSize:8,color:"rgba(255,255,255,0.22)",marginLeft:3,fontWeight:400}}>actions</span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function DutyHeader({dk}){
+  const d=DUTIES[dk];
+  return(
+    <div style={{
+      position:"relative",overflow:"hidden",
+      background:`linear-gradient(135deg,rgba(3,8,16,0.98) 0%,${d.color}0a 100%)`,
+      border:`1px solid ${d.color}35`,
+      borderRadius:"14px 14px 0 0",
+      padding:"20px 22px 18px",
+    }}>
+      <div style={{position:"absolute",top:0,left:0,right:0,height:1,
+        background:`linear-gradient(90deg,transparent,${d.color}dd 35%,${d.color} 50%,${d.color}dd 65%,transparent)`}}/>
+      <div style={{position:"absolute",top:0,left:0,bottom:0,width:3,
+        background:`linear-gradient(180deg,${d.color} 0%,${d.color}33 70%,transparent 100%)`,
+        borderRadius:"14px 0 0 0"}}/>
+      <div style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",
+        fontSize:72,opacity:0.04,pointerEvents:"none",userSelect:"none",lineHeight:1}}>{d.emoji}</div>
+      <div style={{display:"flex",alignItems:"center",gap:12}}>
+        <div style={{
+          width:42,height:42,borderRadius:11,flexShrink:0,
+          background:`${d.color}14`,border:`1px solid ${d.color}38`,
+          display:"flex",alignItems:"center",justifyContent:"center",
+          fontSize:20,boxShadow:`0 0 14px ${d.color}28`,
+        }}>{d.emoji}</div>
+        <div style={{flex:1,minWidth:0}}>
+          <h2 style={{
+            fontFamily:"'Orbitron',monospace",fontWeight:900,
+            fontSize:"clamp(13px,2vw,18px)",letterSpacing:"0.03em",
+            color:d.color,textShadow:`0 0 16px ${d.color}88`,marginBottom:3,
+          }}>{d.label}</h2>
+          <p style={{fontSize:11,color:"rgba(255,255,255,0.25)",fontFamily:"'Exo 2',sans-serif",
+            whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{d.desc}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Podium for top 3
+function PodiumSection({staffList, dk, onSelectStaff}){
+  const sorted=[...staffList].sort((a,b)=>(b.scores[dk]||0)-(a.scores[dk]||0));
+  const top3=sorted.slice(0,3);
+  if(top3.length<1) return null;
+  const d=DUTIES[dk];
+  const order=[1,0,2]; // silver, gold, bronze order for display
+  const heights=[80,110,60];
+  const anims=["silverPulse","goldPulse","bronzePulse"];
+  const podiumColors=["#b8c4d0","#ffd700","#cd7f32"];
+  const ranks=[2,1,3];
+
+  return (
+    <div style={{display:"flex",justifyContent:"center",alignItems:"flex-end",gap:10,margin:"24px 0 16px",padding:"0 10px"}}>
+      {order.map((idx,displayPos)=>{
+        const s=top3[idx];
+        if(!s) return <div key={displayPos} style={{flex:1,maxWidth:200}}/>;
+        const score=s.scores[dk]||0;
+        const tier=getDutyTier(score,dk);
+        const col=podiumColors[displayPos];
+        const rank=ranks[displayPos];
+        const anim=anims[displayPos];
+        return (
+          <div key={s.name} className="podium-card" onClick={()=>onSelectStaff(s)}
+            style={{flex:1,maxWidth:200,cursor:"pointer",
+              animation:`podiumRise 0.5s ${0.1*displayPos}s ease both`}}>
+            {rank===1&&(
+              <div style={{textAlign:"center",fontSize:26,marginBottom:4,
+                animation:"crownBob 2.4s ease-in-out infinite"}}>👑</div>
+            )}
+            <div style={{
+              background:`linear-gradient(180deg,${col}18,${col}08)`,
+              border:`1px solid ${col}50`,borderRadius:"12px 12px 0 0",
+              padding:"14px 10px 10px",textAlign:"center",
+              animation:`${anim} 2.5s ease-in-out infinite`,
+            }}>
+              <div style={{width:44,height:44,borderRadius:12,margin:"0 auto 8px",
+                background:`${col}20`,border:`2px solid ${col}80`,
+                display:"flex",alignItems:"center",justifyContent:"center",
+                fontSize:18,fontFamily:"'Orbitron',monospace",fontWeight:900,color:col}}>
+                {s.name[0].toUpperCase()}
+              </div>
+              <div style={{fontSize:10,color:"#fff",fontFamily:"'Exo 2',sans-serif",
+                fontWeight:700,marginBottom:4,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+                {s.name}
+              </div>
+              {tier&&<TierPill tier={tier}/>}
+              <div style={{marginTop:6,fontFamily:"'Orbitron',monospace",fontWeight:900,
+                fontSize:15,color:col,textShadow:`0 0 14px ${col}88`}}>
+                {fmt(score)}
+              </div>
+            </div>
+            <div style={{
+              height:heights[displayPos],
+              background:`linear-gradient(180deg,${col}25,${col}08)`,
+              border:`1px solid ${col}30`,borderTop:"none",
+              borderRadius:"0 0 10px 10px",
+              display:"flex",alignItems:"center",justifyContent:"center",
+            }}>
+              <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:22,
+                color:`${col}60`}}>#{rank}</div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function StaffRow({staff,rank,dk,onClick,delay,compact}){
+  const score=staff.scores[dk]||0;
+  const tier=getDutyTier(score,dk);
+  const tc=tier?TC[tier]:null;
+  const d=DUTIES[dk];
+  const next=getNextTarget(score,dk);
+  let pct=0;
+  if(next){const ti=TIERS.indexOf(next.tier);const prev=ti>0?d.thresholds[TIERS[ti-1]]:0;pct=Math.min(100,Math.max(0,((score-prev)/(next.needed-prev))*100));}
+  else pct=100;
+  const rCol=rank===1?"#ffd700":rank===2?"#b8c4d0":rank===3?"#cd7f32":null;
+
+  // Tooltip for progress bar
+  const tooltip=next
+    ? `${(next.needed-score).toLocaleString()} more to ${next.tier} (${Math.round(pct)}%)`
+    : "MAX TIER REACHED 👑";
+
+  return(
+    <div className="row-card" onClick={onClick} style={{
+      display:"grid",
+      gridTemplateColumns:compact?"40px 1fr auto":"46px 1fr auto",
+      alignItems:"center",gap:compact?12:16,
+      background:tier?`linear-gradient(90deg,${tc.border}09,rgba(3,8,16,0.72))`:"rgba(5,11,20,0.72)",
+      border:`1px solid ${tier?tc.border+"2a":"#0d1825"}`,
+      borderRadius:12,padding:compact?"11px 14px":"13px 18px",cursor:"pointer",
+      animation:delay?`fadeUp 0.36s ${delay}s ease both`:"none",
+    }}>
+      <div style={{textAlign:"center",flexShrink:0}}>
+        {rCol
+          ? <div style={{width:compact?30:34,height:compact?30:34,borderRadius:9,
+              background:`${rCol}18`,border:`1px solid ${rCol}55`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:rank===1?16:14,boxShadow:`0 0 10px ${rCol}40`,margin:"0 auto"}}>
+              {rank===1?"🥇":rank===2?"🥈":"🥉"}
+            </div>
+          : <div style={{width:compact?30:34,height:compact?30:34,borderRadius:9,
+              background:"rgba(10,20,34,0.8)",border:"1px solid #0d1825",
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:9,fontFamily:"'Orbitron',monospace",fontWeight:700,
+              color:"#2a3d54",margin:"0 auto"}}>{rank}</div>
+        }
+      </div>
+      <div style={{minWidth:0}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:compact?5:7,flexWrap:"wrap"}}>
+          <span style={{
+            color:tier?"#fff":"#7a98b0",
+            fontFamily:"'Exo 2',sans-serif",fontWeight:800,
+            fontSize:compact?13:14,
+            textShadow:tier?`0 0 12px ${tc.border}50`:"none",
+            letterSpacing:"0.01em",
+            whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:160,
+          }}>{staff.name}</span>
+          {tier&&<TierPill tier={tier}/>}
+        </div>
+        <div title={tooltip} style={{height:2,borderRadius:2,background:"rgba(10,20,34,0.9)",overflow:"hidden",marginBottom:compact?3:5,cursor:"help"}}>
+          <div style={{height:"100%",borderRadius:2,width:`${pct}%`,
+            background:tier?`linear-gradient(90deg,${tc.border}70,${tc.border})`:`linear-gradient(90deg,${d.color}30,${d.color}60)`,
+            boxShadow:tier?`0 0 6px ${tc.border}80`:"none",
+            transition:"width 1.4s cubic-bezier(0.4,0,0.2,1)"}}/>
+        </div>
+        {!compact&&(
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+            <span style={{fontSize:9,color:"rgba(255,255,255,0.16)",fontFamily:"'JetBrains Mono',monospace"}}>
+              {score.toLocaleString()} actions
+            </span>
+            {next
+              ? <span style={{fontSize:8,color:"rgba(255,255,255,0.13)",fontFamily:"'JetBrains Mono',monospace"}}>
+                  {(next.needed-score).toLocaleString()} → {TC[next.tier].icon} {next.tier}
+                </span>
+              : <span style={{fontSize:8,color:"#ff0080",fontFamily:"'Orbitron',monospace",
+                  fontWeight:700,textShadow:"0 0 8px #ff008088"}}>MAX 👑</span>
+            }
+          </div>
+        )}
+      </div>
+      <div style={{textAlign:"right",flexShrink:0}}>
+        <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,
+          fontSize:compact?15:17,lineHeight:1,marginBottom:3,
+          color:tier?tc.border:`${d.color}77`,
+          textShadow:tier?`0 0 16px ${tc.glow}`:"none"}}>
+          {fmt(score)}
+        </div>
+        <div style={{display:"flex",justifyContent:"flex-end"}}>
+          <PipRow score={score} dk={dk}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AllDutyCard({dk,staffList,onViewAll,onSelectStaff,animDelay}){
+  const d=DUTIES[dk];
+  const sorted=[...staffList].sort((a,b)=>(b.scores[dk]||0)-(a.scores[dk]||0));
+  const top3=sorted.slice(0,3);
+  return(
+    <div style={{marginBottom:32,animation:`fadeUp 0.45s ${animDelay}s ease both`}}>
+      <DutyHeader dk={dk}/>
+      <TierBreakdown dk={dk}/>
+      <div style={{display:"flex",flexDirection:"column",gap:6,marginBottom:8}}>
+        {top3.map((s,i)=>(
+          <StaffRow key={s.name} staff={s} rank={i+1} dk={dk}
+            compact={true} delay={0} onClick={()=>onSelectStaff(s)}/>
+        ))}
+        {top3.length===0&&(
+          <div style={{textAlign:"center",color:"#0d1825",fontFamily:"'Orbitron',monospace",
+            padding:24,fontSize:9,letterSpacing:"0.2em"}}>NO DATA YET</div>
+        )}
+      </div>
+      {sorted.length>3&&(
+        <button className="view-all-btn" onClick={()=>onViewAll(dk)} style={{
+          width:"100%",background:"rgba(5,11,20,0.6)",
+          border:`1px solid ${d.color}20`,borderRadius:10,
+          padding:"9px 16px",
+          display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+          color:`${d.color}88`,fontFamily:"'Orbitron',monospace",fontWeight:700,
+          fontSize:9,letterSpacing:"0.15em",cursor:"pointer",
+        }}>
+          VIEW ALL {sorted.length} STAFF
+          <span style={{fontSize:12,opacity:0.7}}>→</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Hall of Fame — God tier achievers
+function HallOfFame({staffList,onSelect}){
+  const gods=[];
+  for(const s of staffList){
+    const godDuties=Object.entries(DUTIES).filter(([dk,d])=>(s.scores[dk]||0)>=d.thresholds.God).map(([dk])=>dk);
+    if(godDuties.length>0) gods.push({...s,godDuties});
+  }
+  if(gods.length===0) return(
+    <div style={{textAlign:"center",padding:"60px 20px",
+      background:"linear-gradient(135deg,rgba(255,0,128,0.03),rgba(3,6,13,0.8))",
+      border:"1px solid rgba(255,0,128,0.12)",borderRadius:16,
+      fontFamily:"'Orbitron',monospace",color:"rgba(255,0,128,0.3)",
+      fontSize:10,letterSpacing:"0.3em"}}>
+      👑 NO GOD TIER ACHIEVERS YET — BE THE FIRST
+    </div>
+  );
+  return(
+    <div>
+      <div style={{textAlign:"center",marginBottom:24}}>
+        <div style={{fontSize:9,color:"#ff0080",fontFamily:"'Orbitron',monospace",fontWeight:700,
+          letterSpacing:"0.35em",marginBottom:8,textShadow:"0 0 20px #ff008066"}}>
+          ◈ THE ELITE ◈
+        </div>
+        <div style={{fontSize:"clamp(16px,3vw,28px)",fontFamily:"'Orbitron',monospace",fontWeight:900,
+          background:"linear-gradient(90deg,#ff0080,#ff69b4,#ff0080)",
+          backgroundSize:"200% auto",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
+          animation:"shimmer 3s linear infinite",letterSpacing:"0.05em"}}>
+          HALL OF FAME
+        </div>
+      </div>
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        {gods.map((s,i)=>{
+          const bs=badgeScore(s.scores);
+          return(
+            <div key={s.name} onClick={()=>onSelect(s)} style={{
+              cursor:"pointer",
+              background:"linear-gradient(135deg,rgba(255,0,128,0.07),rgba(3,6,13,0.9))",
+              border:"1px solid rgba(255,0,128,0.2)",borderRadius:14,
+              padding:"16px 20px",
+              animation:`fadeUp 0.4s ${i*0.07}s ease both`,
+              transition:"transform 0.15s,box-shadow 0.15s",
+              boxShadow:"0 2px 20px rgba(255,0,128,0.08)",
+            }}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateX(4px)";e.currentTarget.style.boxShadow="0 4px 30px rgba(255,0,128,0.18)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="translateX(0)";e.currentTarget.style.boxShadow="0 2px 20px rgba(255,0,128,0.08)";}}>
+              <div style={{display:"flex",alignItems:"center",gap:14,flexWrap:"wrap"}}>
+                <div style={{width:46,height:46,borderRadius:12,
+                  background:"linear-gradient(135deg,rgba(255,0,128,0.2),rgba(255,0,128,0.05))",
+                  border:"1px solid rgba(255,0,128,0.4)",
+                  display:"flex",alignItems:"center",justifyContent:"center",
+                  fontSize:18,fontFamily:"'Orbitron',monospace",fontWeight:900,color:"#ff0080",
+                  boxShadow:"0 0 20px rgba(255,0,128,0.3)"}}>
+                  {s.name[0].toUpperCase()}
+                </div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontFamily:"'Exo 2',sans-serif",fontWeight:800,color:"#fff",
+                    fontSize:15,marginBottom:6,textShadow:"0 0 16px rgba(255,0,128,0.4)"}}>
+                    {s.name}
+                  </div>
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                    {s.godDuties.map(dk=>(
+                      <span key={dk} style={{
+                        fontSize:8,fontFamily:"'Orbitron',monospace",fontWeight:700,
+                        color:"#ff0080",background:"rgba(255,0,128,0.08)",
+                        border:"1px solid rgba(255,0,128,0.25)",borderRadius:4,padding:"2px 7px",
+                        letterSpacing:"0.1em",
+                      }}>👑 {DUTIES[dk].short}</span>
+                    ))}
+                  </div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:18,
+                    color:"#ff0080",textShadow:"0 0 20px rgba(255,0,128,0.6)",marginBottom:2}}>
+                    {bs}
+                  </div>
+                  <div style={{fontSize:7,color:"rgba(255,0,128,0.4)",fontFamily:"'Orbitron',monospace",
+                    letterSpacing:"0.15em"}}>PWR SCORE</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// How it works explainer
+function HowItWorks(){
+  const [open,setOpen]=useState(false);
+  const weights={Bronze:1,Silver:2,Gold:4,Legend:8,God:16};
+  return(
+    <div style={{maxWidth:860,margin:"0 auto 20px",
+      background:"rgba(0,212,255,0.03)",border:"1px solid rgba(0,212,255,0.1)",borderRadius:12}}>
+      <button className="explainer-toggle" onClick={()=>setOpen(o=>!o)} style={{
+        width:"100%",background:"none",border:"none",cursor:"pointer",
+        padding:"12px 20px",display:"flex",alignItems:"center",justifyContent:"space-between",
+      }}>
+        <span style={{fontSize:9,color:"rgba(0,212,255,0.55)",fontFamily:"'Orbitron',monospace",
+          fontWeight:700,letterSpacing:"0.2em"}}>ℹ HOW SCORE & POWER POINTS WORK</span>
+        <span style={{color:"rgba(0,212,255,0.4)",fontSize:14,transition:"transform 0.2s",
+          display:"inline-block",transform:open?"rotate(180deg)":"none"}}>▾</span>
+      </button>
+      {open&&(
+        <div style={{padding:"0 20px 20px",animation:"fadeUp 0.2s ease"}}>
+
+          {/* Duties */}
+          <div style={{fontSize:8,color:"rgba(0,212,255,0.4)",fontFamily:"'Orbitron',monospace",
+            fontWeight:700,letterSpacing:"0.2em",marginBottom:8}}>◈ WHAT EACH DUTY TRACKS</div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",gap:8,marginBottom:18}}>
+            {Object.entries(DUTIES).map(([dk,d])=>(
+              <div key={dk} style={{background:"rgba(3,8,16,0.7)",border:`1px solid ${d.color}20`,
+                borderRadius:10,padding:"10px 12px",borderLeft:`3px solid ${d.color}60`}}>
+                <div style={{fontSize:12,marginBottom:4}}>{d.emoji} <span style={{color:d.color,
+                  fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:9}}>{d.label}</span></div>
+                <div style={{fontSize:10,color:"rgba(255,255,255,0.4)",fontFamily:"'Exo 2',sans-serif"}}>{d.desc}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Score Points */}
+          <div style={{fontSize:8,color:"rgba(0,212,255,0.4)",fontFamily:"'Orbitron',monospace",
+            fontWeight:700,letterSpacing:"0.2em",marginBottom:8}}>◈ WHAT IS SCORE POINTS?</div>
+          <div style={{background:"rgba(3,8,16,0.8)",border:"1px solid rgba(0,212,255,0.1)",
+            borderRadius:12,padding:"14px 16px",marginBottom:18}}>
+            <div style={{background:"rgba(0,212,255,0.05)",border:"1px solid rgba(0,212,255,0.15)",
+              borderRadius:9,padding:"10px 14px",marginBottom:12,display:"flex",alignItems:"flex-start",gap:10}}>
+              <span style={{fontSize:18,flexShrink:0}}>📊</span>
+              <div>
+                <div style={{fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:9,
+                  color:"#00d4ff",letterSpacing:"0.12em",marginBottom:4}}>SCORE = RAW ACTIONS IN ONE DUTY</div>
+                <div style={{fontSize:11,color:"rgba(255,255,255,0.55)",fontFamily:"'Exo 2',sans-serif",lineHeight:1.6}}>
+                  Your Score is simply how many times you performed that specific duty. Sent 12,400 messages? Your message score is 12,400. It is the raw number tracked by the bot for each individual category.
+                </div>
+              </div>
+            </div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {Object.entries(DUTIES).map(([dk,d])=>(
+                <div key={dk} style={{flex:"1 1 140px",background:`${d.color}08`,
+                  border:`1px solid ${d.color}20`,borderRadius:9,padding:"8px 12px",
+                  borderLeft:`3px solid ${d.color}50`}}>
+                  <div style={{fontSize:10,marginBottom:3}}>{d.emoji} <span style={{color:d.color,
+                    fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:8}}>{d.short}</span></div>
+                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontSize:9,color:"rgba(255,255,255,0.3)"}}>
+                    e.g. <span style={{color:"rgba(255,255,255,0.6)"}}>
+                      {({message:"12,400 msgs",role:"4,800 roles",req:"980 reqs",purge:"3,100 purges",modlog:"620 cmds"})[dk]}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Power Points */}
+          <div style={{fontSize:8,color:"rgba(0,212,255,0.4)",fontFamily:"'Orbitron',monospace",
+            fontWeight:700,letterSpacing:"0.2em",marginBottom:8}}>◈ WHAT IS POWER POINTS?</div>
+          <div style={{background:"rgba(3,8,16,0.8)",border:"1px solid rgba(0,212,255,0.1)",
+            borderRadius:12,padding:"14px 16px",marginBottom:10}}>
+
+            <div style={{background:"rgba(0,212,255,0.06)",border:"1px solid rgba(0,212,255,0.18)",
+              borderRadius:9,padding:"10px 14px",marginBottom:14,display:"flex",alignItems:"flex-start",gap:10}}>
+              <span style={{fontSize:18,flexShrink:0}}>⚡</span>
+              <div>
+                <div style={{fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:9,
+                  color:"#00d4ff",letterSpacing:"0.12em",marginBottom:4}}>POWER POINTS = YOUR BADGE POINTS ADDED UP</div>
+                <div style={{fontSize:11,color:"rgba(255,255,255,0.55)",fontFamily:"'Exo 2',sans-serif",lineHeight:1.6}}>
+                  Every badge you earn across any duty gives you points. Higher tier badges are worth more. Your Power Points total shows how well-rounded and active you are across all duties, not just one.
+                </div>
+              </div>
+            </div>
+
+            <p style={{fontSize:11,color:"rgba(255,255,255,0.5)",fontFamily:"'Exo 2',sans-serif",
+              lineHeight:1.7,marginBottom:14}}>
+              Each badge is worth points based on its tier. A <span style={{color:TC.God.border,fontWeight:700}}>God badge</span> is worth <strong style={{color:"#fff"}}>16x</strong> more than a Bronze one, so going deep in a duty beats just grinding numbers.
+            </p>
+
+            {/* Tier weights visual */}
+            <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+              {TIERS.map(t=>(
+                <div key={t} style={{
+                  flex:"1 1 80px",
+                  background:`${TC[t].border}0d`,
+                  border:`1px solid ${TC[t].border}30`,
+                  borderRadius:10,padding:"10px 8px",textAlign:"center",
+                }}>
+                  <div style={{fontSize:18,marginBottom:4}}>{TC[t].icon}</div>
+                  <div style={{fontSize:8,color:TC[t].border,fontFamily:"'Orbitron',monospace",
+                    fontWeight:700,letterSpacing:"0.1em",marginBottom:4}}>{t.toUpperCase()}</div>
+                  <div style={{fontFamily:"'JetBrains Mono',monospace",fontWeight:900,fontSize:18,
+                    color:"#fff",lineHeight:1}}>{weights[t]}</div>
+                  <div style={{fontSize:7,color:"rgba(255,255,255,0.2)",fontFamily:"'Orbitron',monospace",
+                    letterSpacing:"0.12em",marginTop:2}}>PT{weights[t]>1?"S":""}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Example calculation */}
+            <div style={{background:"rgba(0,0,0,0.4)",border:"1px solid rgba(255,255,255,0.05)",
+              borderRadius:10,padding:"12px 14px"}}>
+              <div style={{fontSize:8,color:"rgba(255,255,255,0.25)",fontFamily:"'Orbitron',monospace",
+                letterSpacing:"0.18em",marginBottom:10}}>📐 EXAMPLE CALCULATION</div>
+              <div style={{display:"flex",flexDirection:"column",gap:5}}>
+                {[
+                  {duty:"Messages",tier:"Gold",pts:4},
+                  {duty:"Roles",tier:"Silver",pts:2},
+                  {duty:"Purge",tier:"Bronze",pts:1},
+                ].map((row,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:8,
+                    fontFamily:"'JetBrains Mono',monospace",fontSize:10}}>
+                    <span style={{color:"rgba(255,255,255,0.25)",minWidth:110}}>{row.duty}</span>
+                    <TierPill tier={row.tier}/>
+                    <span style={{color:"rgba(255,255,255,0.2)",marginLeft:"auto"}}>+{row.pts} pt{row.pts>1?"s":""}</span>
+                  </div>
+                ))}
+                <div style={{borderTop:"1px solid rgba(255,255,255,0.07)",marginTop:4,paddingTop:8,
+                  display:"flex",alignItems:"center",justifyContent:"space-between",
+                  fontFamily:"'JetBrains Mono',monospace",fontSize:11}}>
+                  <span style={{color:"rgba(255,255,255,0.3)"}}>Total Power Points</span>
+                  <span style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:18,
+                    color:"#00d4ff",textShadow:"0 0 12px #00d4ff66"}}>7</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Share card copy
+function ShareButton({staff}){
+  const [status,setStatus]=useState("idle"); // idle | copied | failed
+  const copy=()=>{
+    const badges=getEarnedBadges(staff.scores);
+    const lines=[
+      `🌊 Wave Staff — ${staff.name}`,
+      `Power Points: ${badgeScore(staff.scores)}`,
+      `Badges: ${Object.entries(badges).map(([dk,t])=>`${TC[t].icon}${DUTIES[dk].short}`).join(" ")}`,
+      `Top Tier: ${getTopTier(badges)||"None"}`,
+    ];
+    const text=lines.join("\n");
+    // Try modern clipboard API first, fall back to execCommand
+    const finish=(ok)=>{
+      setStatus(ok?"copied":"failed");
+      setTimeout(()=>setStatus("idle"),2500);
+    };
+    if(navigator.clipboard&&window.isSecureContext){
+      navigator.clipboard.writeText(text).then(()=>finish(true)).catch(()=>fallback());
+    } else { fallback(); }
+    function fallback(){
+      try{
+        const ta=document.createElement("textarea");
+        ta.value=text;
+        ta.style.cssText="position:fixed;top:-9999px;left:-9999px;opacity:0;";
+        document.body.appendChild(ta);
+        ta.focus();ta.select();
+        const ok=document.execCommand("copy");
+        document.body.removeChild(ta);
+        finish(ok);
+      }catch(e){finish(false);}
+    }
+  };
+  const label = status==="copied" ? "✓ CLIPPED TO CLIPBOARD" : status==="failed" ? "✕ COPY FAILED" : "⎘ CLIP TO CLIPBOARD";
+  const col = status==="copied" ? "#00ff88" : status==="failed" ? "#ff4466" : "rgba(0,212,255,0.7)";
+  const bg = status==="copied" ? "rgba(0,255,136,0.1)" : status==="failed" ? "rgba(255,68,102,0.1)" : "rgba(0,212,255,0.07)";
+  const border = status==="copied" ? "rgba(0,255,136,0.3)" : status==="failed" ? "rgba(255,68,102,0.3)" : "rgba(0,212,255,0.2)";
+  return(
+    <button className="copy-btn" onClick={copy} style={{
+      background:bg, border:`1px solid ${border}`,
+      borderRadius:8,padding:"7px 14px",cursor:"pointer",color:col,
+      fontFamily:"'Orbitron',monospace",fontSize:8,fontWeight:700,letterSpacing:"0.12em",
+      transition:"all 0.2s",display:"flex",alignItems:"center",gap:6,whiteSpace:"nowrap",
+    }}>
+      {label}
+    </button>
+  );
+}
+
+function ProfileModal({staff,onClose}){
+  const badges=getEarnedBadges(staff.scores);
+  const top=getTopTier(badges);
+  const tc=top?TC[top]:null;
+  const dominantDk=getDominantDuty(staff.scores);
+  const bs=badgeScore(staff.scores);
+
+  return(
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.92)",backdropFilter:"blur(24px)",
+      display:"flex",alignItems:"center",justifyContent:"center",zIndex:1000,padding:20}}
+      onClick={onClose}>
+      <div style={{background:"linear-gradient(160deg,#060e1a,#030910)",
+        border:`1px solid ${tc?tc.border+"44":"#0d1825"}`,borderRadius:22,padding:30,
+        maxWidth:540,width:"100%",
+        boxShadow:tc?`0 0 80px ${tc.glow},0 50px 120px rgba(0,0,0,0.99)`:"0 50px 120px rgba(0,0,0,0.99)",
+        maxHeight:"88vh",overflowY:"auto",animation:"fadeUp 0.26s ease",position:"relative"}}
+        onClick={e=>e.stopPropagation()}>
+        {tc&&<div style={{position:"absolute",top:0,left:0,right:0,height:1,
+          borderRadius:"22px 22px 0 0",
+          background:`linear-gradient(90deg,transparent,${tc.border},transparent)`}}/>}
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:24}}>
+          <div style={{display:"flex",alignItems:"center",gap:13}}>
+            <div style={{width:52,height:52,borderRadius:13,
+              background:tc?tc.bg:"#060e18",border:`2px solid ${tc?tc.border+"66":"#0d1825"}`,
+              display:"flex",alignItems:"center",justifyContent:"center",
+              fontSize:22,fontFamily:"'Orbitron',monospace",fontWeight:900,
+              color:tc?tc.border:"#1a2535",boxShadow:tc?`0 0 26px ${tc.glow}`:"none"}}>
+              {staff.name[0].toUpperCase()}
+            </div>
+            <div>
+              <h2 style={{color:"#f0f4f8",fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:17,
+                textShadow:tc?`0 0 20px ${tc.border}88`:"none",marginBottom:6}}>{staff.name}</h2>
+              <div style={{display:"flex",gap:7,flexWrap:"wrap",alignItems:"center"}}>
+                {top&&<TierPill tier={top} size="lg"/>}
+                <span style={{fontSize:9,color:"#2a3d54",fontFamily:"'JetBrains Mono',monospace"}}>
+                  {Object.keys(badges).length} badge{Object.keys(badges).length!==1?"s":""} earned
+                </span>
+              </div>
+            </div>
+          </div>
+          <div style={{display:"flex",gap:8,alignItems:"center"}}>
+            <ShareButton staff={staff}/>
+            <button className="close-btn" onClick={onClose} style={{background:"#070d16",
+              border:"1px solid #0d1825",borderRadius:8,color:"#2a3d54",
+              cursor:"pointer",padding:"6px 11px",fontSize:14,lineHeight:1,transition:"all 0.15s"}}>✕</button>
+          </div>
+        </div>
+
+        {/* Stats bar */}
+        <div style={{display:"flex",gap:8,marginBottom:20,flexWrap:"wrap"}}>
+          <div style={{flex:1,minWidth:100,background:"rgba(3,8,16,0.85)",border:"1px solid #0d1825",
+            borderRadius:10,padding:"10px 14px",textAlign:"center"}}>
+            <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:20,
+              color:"#00d4ff",marginBottom:2}}>{bs}</div>
+            <div style={{fontSize:7,color:"#1a2c3a",fontFamily:"'Orbitron',monospace",letterSpacing:"0.15em"}}>POWER SCORE</div>
+          </div>
+          <div style={{flex:1,minWidth:100,background:"rgba(3,8,16,0.85)",border:"1px solid #0d1825",
+            borderRadius:10,padding:"10px 14px",textAlign:"center"}}>
+            <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:20,
+              color:"#a78bfa",marginBottom:2}}>{Object.keys(badges).length}</div>
+            <div style={{fontSize:7,color:"#1a2c3a",fontFamily:"'Orbitron',monospace",letterSpacing:"0.15em"}}>BADGES</div>
+          </div>
+          {dominantDk&&<div style={{flex:1,minWidth:100,background:`rgba(3,8,16,0.85)`,
+            border:`1px solid ${DUTIES[dominantDk].color}25`,
+            borderRadius:10,padding:"10px 14px",textAlign:"center"}}>
+            <div style={{fontSize:18,marginBottom:2}}>{DUTIES[dominantDk].emoji}</div>
+            <div style={{fontSize:7,color:DUTIES[dominantDk].color,fontFamily:"'Orbitron',monospace",
+              letterSpacing:"0.1em",fontWeight:700}}>DOMINANT</div>
+          </div>}
+        </div>
+
+        <div style={{fontSize:8,color:"#00d4ff",fontFamily:"'Orbitron',monospace",fontWeight:700,
+          letterSpacing:"0.22em",marginBottom:10,textShadow:"0 0 12px #00d4ff55"}}>◈ DUTY BREAKDOWN</div>
+        {Object.entries(DUTIES).map(([dk,d])=>{
+          const score=staff.scores[dk]||0;
+          const tier=getDutyTier(score,dk);
+          const tc2=tier?TC[tier]:null;
+          const next=getNextTarget(score,dk);
+          let pct=0;
+          if(next){const ti=TIERS.indexOf(next.tier);const prev=ti>0?d.thresholds[TIERS[ti-1]]:0;pct=Math.min(100,((score-prev)/(next.needed-prev))*100);}
+          else pct=100;
+          return(
+            <div key={dk} style={{
+              background:"rgba(3,7,14,0.85)",
+              border:`1px solid ${tier?tc2.border+"1e":d.color+"12"}`,
+              borderRadius:11,padding:"12px 14px",marginBottom:7,
+              borderLeft:`3px solid ${tier?tc2.border:d.color+"35"}`,
+            }}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                <span style={{fontSize:12,color:d.color,fontFamily:"'Exo 2',sans-serif",fontWeight:800}}>
+                  {d.emoji} {d.label}
+                </span>
+                <div style={{display:"flex",alignItems:"center",gap:7}}>
+                  {tier&&<TierPill tier={tier}/>}
+                  <span style={{fontSize:13,color:"rgba(255,255,255,0.75)",
+                    fontFamily:"'JetBrains Mono',monospace",fontWeight:700}}>
+                    {score.toLocaleString()}
+                  </span>
+                </div>
+              </div>
+              <div title={next?`${(next.needed-score).toLocaleString()} to ${next.tier} (${Math.round(pct)}%)`:"MAX"} style={{height:3,borderRadius:2,background:"#060d18",overflow:"hidden",cursor:"help"}}>
+                <div style={{height:"100%",borderRadius:2,width:`${pct}%`,
+                  background:tier?`linear-gradient(90deg,${tc2.border}70,${tc2.border})`:`linear-gradient(90deg,${d.color}30,${d.color}60)`,
+                  boxShadow:tier?`0 0 8px ${tc2.glow}`:"none",
+                  transition:"width 1.2s cubic-bezier(0.4,0,0.2,1)"}}/>
+              </div>
+              {next
+                ? <div style={{marginTop:4,fontSize:9,color:"rgba(255,255,255,0.18)",
+                    fontFamily:"'JetBrains Mono',monospace",textAlign:"right"}}>
+                    {(next.needed-score).toLocaleString()} more → {TC[next.tier].icon} {next.tier} · {Math.round(pct)}% there
+                  </div>
+                : <div style={{marginTop:4,fontSize:9,color:"#ff0080",
+                    fontFamily:"'Orbitron',monospace",fontWeight:700,textAlign:"right",
+                    textShadow:"0 0 8px #ff008066"}}>👑 MAX REACHED</div>
+              }
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const DEMO=[
+  {name:"fleck.777",      scores:{message:12400,role:4800,req:980, purge:3100,modlog:620}},
+  {name:"slaxmgmt",       scores:{message:9800, role:6200,req:2400,purge:1800,modlog:430}},
+  {name:"luan_fv.",       scores:{message:6100, role:2900,req:3200,purge:800, modlog:155}},
+  {name:"ztrytytka",      scores:{message:3500, role:1200,req:420, purge:550, modlog:88}},
+  {name:"blanket_god",    scores:{message:2200, role:900, req:180, purge:300, modlog:210}},
+  {name:"meandme7634567", scores:{message:1100, role:400, req:95,  purge:180, modlog:62}},
+  {name:"banana.lecl3rc", scores:{message:800,  role:310, req:45,  purge:90,  modlog:30}},
+  {name:"joaco_t6",       scores:{message:500,  role:200, req:30,  purge:60,  modlog:12}},
+];
+
+function App(){
+  const [staffList,setStaffList]=useState(DEMO);
+  const [selected,setSelected]=useState(null);
+  const [search,setSearch]=useState("");
+  const [loaded,setLoaded]=useState(false);
+  const [lastSync,setLastSync]=useState(null);
+  const [dataSource,setDataSource]=useState("demo");
+  const [activeTab,setActiveTab]=useState("all");
+  const [sortMode,setSortMode]=useState("score"); // score | alpha | tier
+  const [tierFilter,setTierFilter]=useState(null); // null or tier name
+  const searchRef=useRef(null);
+
+  useEffect(()=>{
+    (async()=>{
+      try{
+        const r=await fetch(DATA_URL+"?t="+Date.now());
+        if(r.ok){
+          const j=await r.json();
+          const s=Object.entries(j).map(([name,scores])=>({name,scores}));
+          if(s.length>0){setStaffList(s);setLastSync(new Date().toISOString());setDataSource("github");setLoaded(true);return;}
+        }
+      }catch{}
+      setLoaded(true);
+    })();
+  },[]);
+
+  // Keyboard shortcuts
+  useEffect(()=>{
+    const tabs=["all",...Object.keys(DUTIES)];
+    const handler=(e)=>{
+      if(e.target.tagName==="INPUT") return;
+      if(e.key==="Escape"){setSelected(null);return;}
+      const num=parseInt(e.key);
+      if(num>=1&&num<=tabs.length) setActiveTab(tabs[num-1]);
+    };
+    window.addEventListener("keydown",handler);
+    return()=>window.removeEventListener("keydown",handler);
+  },[]);
+
+  const baseFiltered=staffList.filter(s=>s.name.toLowerCase().includes(search.toLowerCase()));
+  
+  const tierFiltered=tierFilter
+    ? baseFiltered.filter(s=>{
+        if(activeTab==="all") return Object.values(getEarnedBadges(s.scores)).includes(tierFilter);
+        return getDutyTier(s.scores[activeTab]||0,activeTab)===tierFilter;
+      })
+    : baseFiltered;
+
+  const filtered=tierFiltered;
+
+  const totalBadges=staffList.reduce((n,s)=>n+Object.keys(getEarnedBadges(s.scores)).length,0);
+  const godCount=staffList.filter(s=>getTopTier(getEarnedBadges(s.scores))==="God").length;
+
+  function applySort(arr, dk){
+    const a=[...arr];
+    if(sortMode==="alpha") return a.sort((x,y)=>x.name.localeCompare(y.name));
+    if(sortMode==="tier") return a.sort((x,y)=>badgeScore(y.scores)-badgeScore(x.scores));
+    return a.sort((x,y)=>(y.scores[dk]||0)-(x.scores[dk]||0));
+  }
+
+  function sortedByDuty(dk){return applySort(filtered,dk);}
+  function handleViewAll(dk){setSearch("");setActiveTab(dk);window.scrollTo({top:0,behavior:"smooth"});}
+
+  if(!loaded) return(
+    <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",
+      flexDirection:"column",gap:16,position:"relative",zIndex:2}}>
+      <div style={{fontSize:36,animation:"glow 1.2s infinite"}}>⚡</div>
+      <span style={{color:"#00d4ff",fontFamily:"'Orbitron',monospace",fontSize:11,
+        letterSpacing:"0.3em",textShadow:"0 0 24px #00d4ff"}}>LOADING...</span>
+    </div>
+  );
+
+  const dutyKeys=Object.keys(DUTIES);
+  const tabs=["all",...dutyKeys,"hof"];
+
+  return(
+    <div style={{minHeight:"100vh",padding:"48px 20px 90px",position:"relative",zIndex:2}}>
+      {/* Header */}
+      <div style={{textAlign:"center",marginBottom:40,animation:"fadeDown 0.55s ease"}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:8,
+          background:"rgba(0,212,255,0.04)",border:"1px solid rgba(0,212,255,0.1)",
+          borderRadius:100,padding:"6px 18px",marginBottom:20}}>
+          <div style={{width:6,height:6,borderRadius:"50%",background:"#00ff88",
+            boxShadow:"0 0 10px #00ff88",animation:"glow 2s infinite"}}/>
+          <span style={{fontSize:9,color:"rgba(0,212,255,0.5)",
+            fontFamily:"'Orbitron',monospace",letterSpacing:"0.18em"}}>
+            WAVE MANAGEMENT · LIVE
+            {lastSync?` · ${new Date(lastSync).toLocaleDateString("en-GB",{day:"2-digit",month:"short"}).toUpperCase()}`:""}
+          </span>
+        </div>
+        <h1 style={{fontSize:"clamp(42px,9vw,94px)",fontWeight:900,fontFamily:"'Orbitron',monospace",
+          background:"linear-gradient(135deg,#00d4ff 0%,#ffffff 42%,#ff0080 100%)",
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
+          letterSpacing:"-0.02em",lineHeight:0.95,marginBottom:6,
+          filter:"drop-shadow(0 0 50px rgba(0,212,255,0.18))"}}>
+          MILESTONE
+        </h1>
+        <div style={{fontSize:"clamp(11px,2vw,18px)",fontWeight:400,fontFamily:"'Orbitron',monospace",
+          letterSpacing:"0.55em",marginBottom:20,
+          background:"linear-gradient(90deg,transparent,rgba(255,255,255,0.35),transparent)",
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>
+          BADGES
+        </div>
+
+        {/* Stats */}
+        <div style={{display:"inline-flex",alignItems:"center",
+          background:"rgba(5,12,22,0.85)",border:"1px solid #0d1825",
+          borderRadius:10,overflow:"hidden",marginBottom:14}}>
+          {[
+            {label:"STAFF",val:staffList.length},
+            {label:"BADGES",val:totalBadges},
+            {label:"DUTIES",val:dutyKeys.length},
+            {label:"GOD TIER",val:godCount},
+          ].map((s,i)=>(
+            <div key={s.label} style={{padding:"9px 22px",textAlign:"center",
+              borderRight:i<3?"1px solid #0d1825":"none"}}>
+              <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:19,
+                color:"#fff",lineHeight:1,marginBottom:3}}>
+                <AnimatedNumber value={s.val}/>
+              </div>
+              <div style={{fontFamily:"'Orbitron',monospace",fontSize:7,color:"#2a3d54",
+                letterSpacing:"0.2em"}}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {dataSource==="demo"&&(
+          <div><div style={{display:"inline-flex",alignItems:"center",gap:6,
+            background:"rgba(255,170,0,0.04)",border:"1px solid rgba(255,170,0,0.14)",
+            borderRadius:7,padding:"4px 12px",fontSize:9,color:"#ffaa00",
+            fontFamily:"'JetBrains Mono',monospace"}}>
+            ⚠️ DEMO DATA — bot syncs real scores automatically
+          </div></div>
+        )}
+        {dataSource==="github"&&(
+          <div><div style={{display:"inline-flex",alignItems:"center",gap:6,
+            background:"rgba(0,255,136,0.03)",border:"1px solid rgba(0,255,136,0.14)",
+            borderRadius:7,padding:"4px 12px",fontSize:9,color:"#00ff88",
+            fontFamily:"'JetBrains Mono',monospace"}}>
+            ✅ LIVE DATA · Updated {lastSync?new Date(lastSync).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}):"--:--"}
+          </div></div>
+        )}
+      </div>
+
+      {/* How it works */}
+      <HowItWorks/>
+
+      {/* Search + Tabs */}
+      <div style={{maxWidth:860,margin:"0 auto 28px"}}>
+        <div className="search-wrap" style={{
+          position:"relative",marginBottom:18,
+          background:"rgba(5,12,22,0.92)",
+          border:"1px solid #0d1825",borderRadius:12,
+          display:"flex",alignItems:"center",gap:0,
+          transition:"border-color 0.2s",
+        }}
+          onFocus={()=>document.querySelector(".search-wrap").style.borderColor="rgba(0,212,255,0.3)"}
+          onBlur={()=>document.querySelector(".search-wrap").style.borderColor="#0d1825"}
+        >
+          <div style={{padding:"0 14px",color:"#1e3a52",fontSize:16,flexShrink:0,
+            display:"flex",alignItems:"center"}}>🔍</div>
+          <input
+            ref={searchRef}
+            value={search}
+            onChange={e=>setSearch(e.target.value)}
+            placeholder="Search staff by name..."
+            style={{flex:1,background:"transparent",border:"none",color:"#c0d4e0",padding:"13px 0",
+              fontSize:13,fontFamily:"'Exo 2',sans-serif",fontWeight:600,
+              outline:"none",letterSpacing:"0.02em"}}
+          />
+          {search&&(
+            <button onClick={()=>{setSearch("");searchRef.current?.focus();}} style={{
+              background:"none",border:"none",cursor:"pointer",
+              padding:"0 14px",color:"#2a3d54",fontSize:16,
+              display:"flex",alignItems:"center",transition:"color 0.15s"}}
+              onMouseEnter={e=>e.target.style.color="#ccc"}
+              onMouseLeave={e=>e.target.style.color="#2a3d54"}
+            >✕</button>
+          )}
+          {!search&&(
+            <div style={{padding:"0 14px",fontSize:9,color:"#1a2c3a",
+              fontFamily:"'Orbitron',monospace",letterSpacing:"0.1em",flexShrink:0}}>
+              {filtered.length} / {staffList.length}
+            </div>
+          )}
+        </div>
+
+        {/* Main tabs */}
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",justifyContent:"center",marginBottom:10}}>
+          {tabs.map(t=>{
+            const isAll=t==="all", isHof=t==="hof", d=(!isAll&&!isHof)?DUTIES[t]:null;
+            const active=activeTab===t;
+            return(
+              <button key={t} className="tab-btn" onClick={()=>{setActiveTab(t);setSearch("");setTierFilter(null);}} style={{
+                background:active?(isAll?"rgba(0,212,255,0.09)":isHof?"rgba(255,0,128,0.09)":d.color+"12"):"rgba(5,11,20,0.85)",
+                border:`1px solid ${active?(isAll?"rgba(0,212,255,0.45)":isHof?"rgba(255,0,128,0.45)":d.color+"50"):"#0d1825"}`,
+                borderRadius:8,padding:"8px 15px",
+                color:active?(isAll?"#00d4ff":isHof?"#ff0080":d.color):"#1e3248",
+                fontFamily:"'Orbitron',monospace",fontWeight:700,fontSize:8,letterSpacing:"0.12em",
+                display:"flex",alignItems:"center",gap:5,
+                boxShadow:active?(isAll?"0 0 16px rgba(0,212,255,0.14)":isHof?"0 0 16px rgba(255,0,128,0.2)":`0 0 16px ${d.color}22`):"none",
+              }}>
+                {isAll&&<><span style={{fontSize:10}}>◈</span> ALL</>}
+                {isHof&&<><span style={{fontSize:10}}>👑</span> HALL OF FAME</>}
+                {(!isAll&&!isHof)&&<><span style={{fontSize:12}}>{d.emoji}</span> {d.short}</>}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Sort + Tier filter controls (duty tabs only) */}
+        {activeTab!=="hof"&&activeTab!=="all"&&(
+          <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",justifyContent:"space-between"}}>
+            {/* Sort buttons */}
+            <div style={{display:"flex",gap:4,alignItems:"center"}}>
+              <span style={{fontSize:7,color:"#1a2c3a",fontFamily:"'Orbitron',monospace",
+                letterSpacing:"0.15em",marginRight:4}}>SORT</span>
+              {[["score","📊 SCORE"],["alpha","🔤 A–Z"],["tier","⭐ POWER"]].map(([mode,label])=>(
+                <button key={mode} className="sort-btn" onClick={()=>setSortMode(mode)} style={{
+                  background:sortMode===mode?"rgba(0,212,255,0.1)":"rgba(5,11,20,0.7)",
+                  border:`1px solid ${sortMode===mode?"rgba(0,212,255,0.3)":"#0d1825"}`,
+                  borderRadius:6,padding:"5px 10px",
+                  color:sortMode===mode?"#00d4ff":"#1e3248",
+                  fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,
+                  letterSpacing:"0.1em",opacity:sortMode===mode?1:0.6,
+                }}>{label}</button>
+              ))}
+            </div>
+            {/* Tier filter */}
+            <div style={{display:"flex",gap:4,alignItems:"center",flexWrap:"wrap"}}>
+              <span style={{fontSize:7,color:"#1a2c3a",fontFamily:"'Orbitron',monospace",
+                letterSpacing:"0.15em",marginRight:4}}>FILTER</span>
+              <button className="tier-filter-btn" onClick={()=>setTierFilter(null)} style={{
+                background:!tierFilter?"rgba(255,255,255,0.07)":"rgba(5,11,20,0.7)",
+                border:`1px solid ${!tierFilter?"rgba(255,255,255,0.2)":"#0d1825"}`,
+                borderRadius:6,padding:"5px 8px",
+                color:!tierFilter?"#fff":"#1e3248",
+                fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,letterSpacing:"0.1em",
+              }}>ALL</button>
+              {TIERS.map(t=>(
+                <button key={t} className="tier-filter-btn" onClick={()=>setTierFilter(tierFilter===t?null:t)} style={{
+                  background:tierFilter===t?`${TC[t].border}18`:"rgba(5,11,20,0.7)",
+                  border:`1px solid ${tierFilter===t?TC[t].border+"60":"#0d1825"}`,
+                  borderRadius:6,padding:"5px 8px",
+                  color:tierFilter===t?TC[t].border:"#1e3248",
+                  fontFamily:"'Orbitron',monospace",fontSize:7,fontWeight:700,letterSpacing:"0.08em",
+                }}>{TC[t].icon} {t.toUpperCase()}</button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      <div style={{maxWidth:860,margin:"0 auto"}}>
+        {/* Hall of Fame */}
+        {activeTab==="hof"&&(
+          <div style={{animation:"fadeUp 0.35s ease both"}}>
+            <HallOfFame staffList={staffList} onSelect={setSelected}/>
+          </div>
+        )}
+
+        {/* All tab — Power Score leaderboard */}
+        {activeTab==="all"&&(
+          <div style={{animation:"fadeUp 0.35s ease both"}}>
+            <div style={{
+              position:"relative",overflow:"hidden",
+              background:"linear-gradient(135deg,rgba(3,8,16,0.98),rgba(0,212,255,0.04))",
+              border:"1px solid rgba(0,212,255,0.2)",
+              borderRadius:"14px 14px 0 0",padding:"20px 22px 18px",marginBottom:0,
+            }}>
+              <div style={{position:"absolute",top:0,left:0,right:0,height:1,
+                background:"linear-gradient(90deg,transparent,#00d4ffdd 50%,transparent)"}}/>
+              <div style={{position:"absolute",top:0,left:0,bottom:0,width:3,
+                background:"linear-gradient(180deg,#00d4ff,#00d4ff33,transparent)",borderRadius:"14px 0 0 0"}}/>
+              <div style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",
+                fontSize:72,opacity:0.04,pointerEvents:"none"}}>⭐</div>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:42,height:42,borderRadius:11,flexShrink:0,
+                  background:"rgba(0,212,255,0.1)",border:"1px solid rgba(0,212,255,0.25)",
+                  display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,
+                  boxShadow:"0 0 14px rgba(0,212,255,0.2)"}}>⭐</div>
+                <div>
+                  <h2 style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:"clamp(13px,2vw,18px)",
+                    color:"#00d4ff",textShadow:"0 0 16px #00d4ff88",marginBottom:3,letterSpacing:"0.03em"}}>
+                    POWER SCORE LEADERBOARD
+                  </h2>
+                  <p style={{fontSize:11,color:"rgba(255,255,255,0.25)",fontFamily:"'Exo 2',sans-serif"}}>
+                    Ranked by total badge points across all duties
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div style={{background:"rgba(2,5,12,0.7)",
+              borderLeft:"1px solid rgba(0,212,255,0.1)",borderRight:"1px solid rgba(0,212,255,0.1)",
+              borderBottom:"1px solid rgba(0,212,255,0.1)",
+              borderRadius:"0 0 14px 14px",padding:"10px 14px 14px",marginBottom:16}}>
+              <div style={{display:"flex",gap:6,justifyContent:"flex-end",flexWrap:"wrap"}}>
+                {TIERS.map(t=>(
+                  <div key={t} style={{display:"flex",alignItems:"center",gap:4,
+                    fontSize:8,fontFamily:"'JetBrains Mono',monospace",color:TC[t].border}}>
+                    {TC[t].icon} {t} = {({Bronze:1,Silver:2,Gold:4,Legend:8,God:16})[t]}pt
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {search&&filtered.length===0&&(
+              <div style={{textAlign:"center",padding:60,color:"#1a2c3a",
+                fontFamily:"'Orbitron',monospace",fontSize:10,letterSpacing:"0.22em"}}>
+                NO STAFF MATCH "{search.toUpperCase()}"
+              </div>
+            )}
+
+            <div style={{display:"flex",flexDirection:"column",gap:7}}>
+              {[...filtered].sort((a,b)=>badgeScore(b.scores)-badgeScore(a.scores)).map((s,i)=>{
+                const bs=badgeScore(s.scores);
+                const badges=getEarnedBadges(s.scores);
+                const top=getTopTier(badges);
+                const tc=top?TC[top]:null;
+                const rCol=i===0?"#ffd700":i===1?"#b8c4d0":i===2?"#cd7f32":null;
+                return(
+                  <div key={s.name} className="row-card" onClick={()=>setSelected(s)} style={{
+                    display:"grid",gridTemplateColumns:"46px 1fr auto",
+                    alignItems:"center",gap:16,
+                    background:tc?`linear-gradient(90deg,${tc.border}09,rgba(3,8,16,0.72))`:"rgba(5,11,20,0.72)",
+                    border:`1px solid ${tc?tc.border+"2a":"#0d1825"}`,
+                    borderRadius:12,padding:"13px 18px",cursor:"pointer",
+                    animation:`fadeUp 0.36s ${i<10?i*0.04:0}s ease both`,
+                  }}>
+                    {/* Rank */}
+                    <div style={{textAlign:"center",flexShrink:0}}>
+                      {rCol
+                        ? <div style={{width:34,height:34,borderRadius:9,background:`${rCol}18`,
+                            border:`1px solid ${rCol}55`,display:"flex",alignItems:"center",
+                            justifyContent:"center",fontSize:i===0?16:14,
+                            boxShadow:`0 0 10px ${rCol}40`,margin:"0 auto"}}>
+                            {i===0?"🥇":i===1?"🥈":"🥉"}
+                          </div>
+                        : <div style={{width:34,height:34,borderRadius:9,background:"rgba(10,20,34,0.8)",
+                            border:"1px solid #0d1825",display:"flex",alignItems:"center",
+                            justifyContent:"center",fontSize:9,fontFamily:"'Orbitron',monospace",
+                            fontWeight:700,color:"#2a3d54",margin:"0 auto"}}>{i+1}</div>
+                      }
+                    </div>
+                    {/* Name + badges */}
+                    <div style={{minWidth:0}}>
+                      <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8,flexWrap:"wrap"}}>
+                        <span style={{color:tc?"#fff":"#7a98b0",fontFamily:"'Exo 2',sans-serif",
+                          fontWeight:800,fontSize:14,
+                          textShadow:tc?`0 0 12px ${tc.border}50`:"none",
+                          whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:160}}>
+                          {s.name}
+                        </span>
+                        {top&&<TierPill tier={top}/>}
+                      </div>
+                      {/* Badge row */}
+                      <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
+                        {Object.entries(DUTIES).map(([dk,d])=>{
+                          const tier=badges[dk];
+                          if(!tier) return(
+                            <div key={dk} title={`${d.label}: no badge`} style={{
+                              width:22,height:22,borderRadius:6,
+                              background:"rgba(10,20,34,0.6)",border:"1px solid #0d1825",
+                              display:"flex",alignItems:"center",justifyContent:"center",
+                              fontSize:10,opacity:0.25,
+                            }}>{d.emoji}</div>
+                          );
+                          const tc2=TC[tier];
+                          return(
+                            <div key={dk} title={`${d.label}: ${tier}`} style={{
+                              width:22,height:22,borderRadius:6,
+                              background:`${tc2.border}18`,border:`1px solid ${tc2.border}50`,
+                              display:"flex",alignItems:"center",justifyContent:"center",
+                              fontSize:10,boxShadow:`0 0 6px ${tc2.glow}`,
+                            }}>{d.emoji}</div>
+                          );
+                        })}
+                        <span style={{fontSize:9,color:"rgba(255,255,255,0.15)",
+                          fontFamily:"'JetBrains Mono',monospace",alignSelf:"center",marginLeft:4}}>
+                          {Object.keys(badges).length}/{Object.keys(DUTIES).length} badges
+                        </span>
+                      </div>
+                    </div>
+                    {/* Power score */}
+                    <div style={{textAlign:"right",flexShrink:0}}>
+                      <div style={{fontFamily:"'Orbitron',monospace",fontWeight:900,fontSize:24,
+                        lineHeight:1,marginBottom:3,
+                        color:tc?tc.border:"#1a2c3a",
+                        textShadow:tc?`0 0 20px ${tc.glow}`:"none"}}>
+                        {bs}
+                      </div>
+                      <div style={{fontSize:7,color:"rgba(255,255,255,0.15)",
+                        fontFamily:"'Orbitron',monospace",letterSpacing:"0.15em"}}>PWR PTS</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Individual duty tab */}
+        {activeTab!=="all"&&activeTab!=="hof"&&(()=>{
+          const dk=activeTab;
+          const ranked=sortedByDuty(dk);
+          const top3=ranked.slice(0,3);
+          return(
+            <div style={{animation:"fadeUp 0.35s ease both"}}>
+              <DutyHeader dk={dk}/>
+              <TierBreakdown dk={dk}/>
+
+              {/* Podium */}
+              {!search&&!tierFilter&&ranked.length>=3&&(
+                <div style={{marginBottom:8}}>
+                  <div style={{fontSize:8,color:DUTIES[dk].color,fontFamily:"'Orbitron',monospace",
+                    fontWeight:700,letterSpacing:"0.22em",textAlign:"center",marginBottom:4,opacity:0.6}}>
+                    ◈ TOP PERFORMERS
+                  </div>
+                  <PodiumSection staffList={staffList} dk={dk} onSelectStaff={setSelected}/>
+                </div>
+              )}
+
+              <div style={{display:"flex",flexDirection:"column",gap:7}}>
+                {ranked.map((s,i)=>(
+                  <StaffRow key={s.name} staff={s} rank={i+1} dk={dk}
+                    compact={false} delay={i<8?i*0.03:0} onClick={()=>setSelected(s)}/>
+                ))}
+                {ranked.length===0&&(
+                  <div style={{textAlign:"center",color:"#0d1825",fontFamily:"'Orbitron',monospace",
+                    padding:50,fontSize:9,letterSpacing:"0.24em"}}>
+                    {search?`NO STAFF MATCH "${search.toUpperCase()}"`:tierFilter?`NO ${tierFilter.toUpperCase()} TIER STAFF`:'NO DATA YET'}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+      </div>
+
+      {/* Keyboard shortcut hint */}
+      <div style={{maxWidth:860,margin:"20px auto 0",textAlign:"center"}}>
+        <div style={{fontSize:7,color:"#0d1825",fontFamily:"'JetBrains Mono',monospace",letterSpacing:"0.15em"}}>
+          ⌨ PRESS 1-6 TO SWITCH TABS · ESC TO CLOSE · CLICK ANY ROW FOR PROFILE
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{maxWidth:860,margin:"24px auto 0",textAlign:"center",
+        padding:"18px 28px",
+        background:"linear-gradient(135deg,rgba(5,11,20,0.7),rgba(20,8,0,0.5))",
+        border:"1px solid rgba(255,170,0,0.09)",borderRadius:13,
+        backdropFilter:"blur(12px)",position:"relative",overflow:"hidden"}}>
+        <div style={{position:"absolute",top:0,left:0,right:0,height:1,
+          background:"linear-gradient(90deg,transparent,rgba(255,170,0,0.35),transparent)"}}/>
+        <span style={{fontSize:13,color:"#1e2e3e",fontFamily:"'Exo 2',sans-serif",fontWeight:600}}>Use Code </span>
+        <span style={{fontSize:17,fontFamily:"'Orbitron',monospace",fontWeight:900,
+          background:"linear-gradient(90deg,#ffaa00,#ffd700,#ffee88,#ffd700,#ffaa00)",
+          backgroundSize:"200% auto",
+          WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",
+          animation:"shimmer 2.5s linear infinite",
+          filter:"drop-shadow(0 0 16px rgba(255,170,0,0.5))",
+          letterSpacing:"0.04em"}}>wavedropmaps</span>
+        <span style={{fontSize:13,color:"#1e2e3e",fontFamily:"'Exo 2',sans-serif",fontWeight:600}}> in the Item Shop!</span>
+      </div>
+
+      {selected&&<ProfileModal staff={selected} onClose={()=>setSelected(null)}/>}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
