@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Wave Staff — Duties Leaderboard</title>
+<meta name="theme-color" content="#00d4ff"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Exo+2:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{min-height:100%;background:#0d0a15;overflow-x:hidden;font-family:'Exo 2',sans-serif;}
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;}
+.orb1{width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.055) 0%,transparent 70%);top:-280px;left:-280px;animation:o1 16s ease-in-out infinite;}
+.orb2{width:1000px;height:1000px;background:radial-gradient(circle,rgba(255,0,128,0.04) 0%,transparent 70%);bottom:-380px;right:-380px;animation:o2 20s ease-in-out infinite;}
+.orb3{width:600px;height:600px;background:radial-gradient(circle,rgba(255,170,0,0.03) 0%,transparent 70%);top:40%;left:50%;transform:translate(-50%,-50%);animation:o3 13s ease-in-out infinite;}
+@keyframes o1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,50px)}}
+@keyframes o2{0%,100%{transform:translate(0,0)}50%{transform:translate(-60px,-80px)}}
+@keyframes o3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.35)}}
+.scanlines{position:fixed;inset:0;z-index:1;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.08) 3px,rgba(0,0,0,0.08) 4px);opacity:.25;}
+::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:#0d0a15;}::-webkit-scrollbar-thumb{background:linear-gradient(#00d4ff,#ff0080);border-radius:2px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes titleShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.container{position:relative;z-index:10;min-height:100vh;padding:40px 20px 80px;}
+.content{max-width:900px;margin:0 auto;}
+.header{text-align:center;margin-bottom:60px;animation:fadeUp 0.5s ease both;}
+.title{font-size:56px;font-weight:900;background:linear-gradient(90deg, #00d4ff, #ff0080, #00d4ff);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:titleShimmer 3s linear infinite;font-family:'Orbitron',monospace;margin-bottom:12px;}
+.subtitle{font-size:14px;color:#888;font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;}
+.duty-card{background:linear-gradient(135deg, var(--duty-accent), rgba(20,20,40,0.8));border:1.5px solid var(--duty-color);border-radius:12px;padding:24px;margin-bottom:20px;animation:fadeUp 0.4s ease both;}
+.duty-header{display:flex;align-items:center;margin-bottom:16px;gap:12px;}
+.duty-emoji{font-size:32px;}
+.duty-name{font-size:24px;font-weight:700;background:linear-gradient(90deg, var(--duty-color), var(--duty-color-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0;font-family:'Orbitron',monospace;}
+.duty-list{display:flex;flex-direction:column;gap:8px;}
+.rank-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--rank-bg);border:1px solid var(--rank-border);border-radius:8px;transition:all 0.2s;cursor:pointer;}
+.rank-row:hover{background:var(--rank-bg-hover);transform:translateX(4px);}
+.rank-left{display:flex;align-items:center;gap:10px;flex:1;}
+.rank-medal{font-size:20px;min-width:30px;text-align:center;}
+.rank-info{display:flex;flex-direction:column;}
+.rank-name{font-size:15px;font-weight:600;color:#fff;}
+.rank-status{font-size:11px;color:var(--rank-status-color);font-family:'JetBrains Mono',monospace;}
+.rank-count{font-size:18px;font-weight:700;color:var(--duty-color);font-family:'Orbitron',monospace;text-shadow:0 0 8px var(--duty-color-glow);}
+.footer{text-align:center;font-size:11px;color:#555;margin-top:40px;font-family:'JetBrains Mono',monospace;opacity:0.7;}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+<div class="scanlines"></div>
+
+<div class="container">
+  <div class="content">
+    <div class="header">
+      <h1 class="title">DUTIES LEADERBOARD</h1>
+      <p class="subtitle">⏱️ LIVE RANKING · UPDATES EVERY 4 HOURS</p>
+    </div>
+    <div id="leaderboard"></div>
+    <div class="footer">
+      <p>Last updated: <span id="lastUpdate">Loading...</span></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const DUTY_CONFIG = {
+  purge: {emoji: '🪣', name: 'Purge Perms', color: '#ff6b6b', accent: 'rgba(255,107,107,0.2)', glow: 'rgba(255,107,107,0.4)'},
+  req: {emoji: '🗺️', name: 'Map Request Helper', color: '#4ecdc4', accent: 'rgba(78,205,196,0.2)', glow: 'rgba(78,205,196,0.4)'},
+  role: {emoji: '👤', name: 'Role Giver', color: '#ffa500', accent: 'rgba(255,165,0,0.2)', glow: 'rgba(255,165,0,0.4)'},
+};
+
+const RANK_MEDALS = {1: '🥇', 2: '🥈', 3: '🥉'};
+
+const PLACEHOLDER_DATA = {
+  purge: {
+    "123456789": {name: "fruss.", count: 87, uid: 123456789},
+    "987654321": {name: "Leon", count: 64, uid: 987654321},
+    "555555555": {name: "veroxz", count: 52, uid: 555555555},
+    "444444444": {name: "Jackle", count: 38, uid: 444444444},
+    "333333333": {name: "juxxsemii", count: 25, uid: 333333333},
+    "222222222": {name: "MultiChrome+", count: 18, uid: 222222222},
+  },
+  req: {
+    "111111111": {name: "Mahd", count: 156, uid: 111111111},
+    "987654321": {name: "Leon", count: 142, uid: 987654321},
+    "666666666": {name: "Luan", count: 98, uid: 666666666},
+    "777777777": {name: "Fernz", count: 72, uid: 777777777},
+    "888888888": {name: "T6 jo4coǃ", count: 45, uid: 888888888},
+    "999999999": {name: "Numifv!", count: 32, uid: 999999999},
+  },
+  role: {
+    "444444444": {name: "Jackle", count: 203, uid: 444444444},
+    "555555555": {name: "veroxz", count: 187, uid: 555555555},
+    "123456789": {name: "fruss.", count: 154, uid: 123456789},
+    "111111111": {name: "Mahd", count: 121, uid: 111111111},
+    "666666666": {name: "Luan", count: 89, uid: 666666666},
+    "777777777": {name: "Fernz", count: 67, uid: 777777777},
+  }
+};
+
+function getStatus(count, duty) {
+  const thresholds = {
+    purge: {great: 30, good: 15, okay: 5},
+    req: {great: 50, good: 20, okay: 8},
+    role: {great: 60, good: 30, okay: 10}
+  };
+  const t = thresholds[duty] || {great: 50, good: 20, okay: 5};
+  if(count >= t.great) return '🌟 Great';
+  if(count >= t.good) return '✅ Good';
+  if(count >= t.okay) return '⚠️ Okay';
+  return '❌ Bad';
+}
+
+function renderLeaderboard(data) {
+  const duties = ['purge', 'req', 'role'];
+  const html = duties.map(duty => {
+    const cfg = DUTY_CONFIG[duty];
+    const dutyData = data[duty] || {};
+    
+    const sorted = Object.entries(dutyData)
+      .map(function(entry) {
+        return {uid: entry[0], name: entry[1].name || ('User ' + entry[0]), count: entry[1].count || 0};
+      })
+      .sort(function(a, b) { return b.count - a.count; })
+      .slice(0, 10);
+    
+    const rows = sorted.map(function(member, idx) {
+      const medal = RANK_MEDALS[idx+1] || (idx+1) + '.';
+      const status = getStatus(member.count, duty);
+      const isTop3 = idx < 3;
+      
+      return '<div class="rank-row" style="--rank-bg: ' + (isTop3 ? cfg.color + '15' : 'rgba(255,255,255,0.02)') + '; --rank-border: ' + (isTop3 ? cfg.color + '40' : 'rgba(255,255,255,0.1)') + '; --rank-status-color: ' + cfg.color + '80; --duty-color: ' + cfg.color + '; --duty-color-glow: ' + cfg.glow + ';">' +
+        '<div class="rank-left">' +
+          '<span class="rank-medal">' + medal + '</span>' +
+          '<div class="rank-info">' +
+            '<div class="rank-name">' + member.name + '</div>' +
+            '<div class="rank-status">' + status + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="rank-count">' + member.count + '</div>' +
+      '</div>';
+    }).join('');
+    
+    return '<div class="duty-card" style="--duty-color: ' + cfg.color + '; --duty-accent: ' + cfg.accent + '; --duty-color-light: ' + cfg.color + 'cc;">' +
+      '<div class="duty-header">' +
+        '<span class="duty-emoji">' + cfg.emoji + '</span>' +
+        '<h2 class="duty-name">' + cfg.name + '</h2>' +
+      '</div>' +
+      '<div class="duty-list">' + (rows.length > 0 ? rows : '<div style="text-align:center;color:#888;padding:20px;">No data yet</div>') + '</div>' +
+    '</div>';
+  }).join('');
+  
+  document.getElementById('leaderboard').innerHTML = html;
+  document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+}
+
+function loadData() {
+  renderLeaderboard(PLACEHOLDER_DATA);
+  
+  fetch('https://raw.githubusercontent.com/wavedropmaps/wave-leaderboard/main/duties_totals.json')
+    .then(function(res) { return res.ok ? res.json() : Promise.reject('Failed'); })
+    .then(function(json) {
+      renderLeaderboard(json);
+    })
+    .catch(function(e) {
+      console.log('Using placeholder data');
+    });
+}
+
+loadData();
+setInterval(loadData, 30000);
+</script>
+</body>
+</html>
