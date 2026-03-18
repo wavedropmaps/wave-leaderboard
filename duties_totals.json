@@ -2,7 +2,7 @@
   "_meta": {
     "start_date": "15/03/2026",
     "end_date": "21/03/2026",
-    "last_updated": "2026-03-18T04:30:50.892234+00:00"
+    "last_updated": "2026-03-18T08:30:48.506406+00:00"
   },
   "purge": {
     "1458092102322880672": {
@@ -101,17 +101,17 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 270,
+      "count": 271,
       "uid": 1458092102322880672
     },
     "1247426022274760748": {
       "name": "Void",
-      "count": 143,
+      "count": 145,
       "uid": 1247426022274760748
     },
     "931191147374719027": {
       "name": "Meta",
-      "count": 1,
+      "count": 2,
       "uid": 931191147374719027
     },
     "1407405613239238719": {
@@ -150,11 +150,6 @@
       "name": "\ud835\udcdb\ud835\udcd0\ud835\udce6\ud835\udd01\ud835\udce2\ud835\udcea\ud835\udcff\ud835\udcfb\ud835\udcf2\ud835\udd01\ud835\udce8\ud835\udce3\u4e44",
       "count": 0,
       "uid": 729014516469465098
-    },
-    "449269782517252106": {
-      "name": "haribo!",
-      "count": 0,
-      "uid": 449269782517252106
     },
     "916260880876986378": {
       "name": "Psychosystems",
@@ -231,15 +226,15 @@
     },
     "327850147969236994": {
       "name": "Numifv!",
-      "count": 51,
+      "count": 53,
       "uid": 327850147969236994,
-      "days_of_week_active": 3
+      "days_of_week_active": 4
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 152,
+      "count": 153,
       "uid": 842738895913615370,
-      "days_of_week_active": 3
+      "days_of_week_active": 4
     },
     "658676382053826571": {
       "name": "fectoo (dm or @ for help)",
@@ -258,12 +253,6 @@
       "count": 21,
       "uid": 729014516469465098,
       "days_of_week_active": 2
-    },
-    "449269782517252106": {
-      "name": "haribo!",
-      "count": 2,
-      "uid": 449269782517252106,
-      "days_of_week_active": 1
     },
     "916260880876986378": {
       "name": "Psychosystems",
@@ -290,15 +279,15 @@
     },
     "1247426022274760748": {
       "name": "Void",
-      "count": 299,
+      "count": 319,
       "uid": 1247426022274760748,
       "days_of_week_active": 4
     },
     "931191147374719027": {
       "name": "Meta",
-      "count": 2,
+      "count": 3,
       "uid": 931191147374719027,
-      "days_of_week_active": 1
+      "days_of_week_active": 2
     },
     "1407405613239238719": {
       "name": "Tay ur boy",
@@ -308,7 +297,7 @@
     },
     "987843990734905414": {
       "name": "Code WaveDropMaps",
-      "count": 335,
+      "count": 339,
       "uid": 987843990734905414,
       "days_of_week_active": 4
     },
