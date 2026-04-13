@@ -1,107 +1,92 @@
 {
   "_meta": {
-    "start_date": "05/04/2026",
-    "end_date": "11/04/2026",
-    "last_updated": "2026-04-12T04:53:14.335340+00:00"
+    "start_date": "12/04/2026",
+    "end_date": "18/04/2026",
+    "last_updated": "2026-04-13T08:26:19.298818+00:00"
   },
   "purge": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 116,
+      "count": 13,
       "uid": 871517104753479680
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 106,
+      "count": 36,
       "uid": 1458092102322880672
     },
-    "1123320598265868298": {
-      "name": "Jd\u00f8t",
-      "count": 25,
-      "uid": 1123320598265868298
-    },
-    "658676382053826571": {
-      "name": "fectoo",
-      "count": 9,
-      "uid": 658676382053826571
-    },
-    "842738895913615370": {
-      "name": "EXM meandme7634567",
-      "count": 41,
-      "uid": 842738895913615370
-    },
     "1285691249428271114": {
-      "name": "Jo4co!",
+      "name": "Jo4cofv\u01c3 \u30cd",
       "count": 0,
       "uid": 1285691249428271114
     },
+    "842738895913615370": {
+      "name": "EXM meandme7634567",
+      "count": 1,
+      "uid": 842738895913615370
+    },
+    "658676382053826571": {
+      "name": "fectoo",
+      "count": 0,
+      "uid": 658676382053826571
+    },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 174,
+      "count": 54,
       "uid": 1407405613239238719
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 10,
+      "count": 5,
       "uid": 821412756729233439
     }
   },
   "req": {
     "1458092102322880672": {
       "name": "Slax",
-      "count": 170,
+      "count": 38,
       "uid": 1458092102322880672
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 38,
+      "count": 3,
       "uid": 842738895913615370
     },
     "1285691249428271114": {
-      "name": "Jo4co!",
-      "count": 7,
+      "name": "Jo4cofv\u01c3 \u30cd",
+      "count": 0,
       "uid": 1285691249428271114
-    },
-    "1123320598265868298": {
-      "name": "Jd\u00f8t",
-      "count": 6,
-      "uid": 1123320598265868298
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 104,
+      "count": 5,
       "uid": 1407405613239238719
     }
   },
   "role": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 176,
+      "count": 23,
       "uid": 871517104753479680
     },
     "1252988949060911177": {
       "name": "Mufasa",
-      "count": 78,
+      "count": 0,
       "uid": 1252988949060911177
-    },
-    "1123320598265868298": {
-      "name": "Jd\u00f8t",
-      "count": 53,
-      "uid": 1123320598265868298
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 216,
+      "count": 34,
       "uid": 842738895913615370
     },
     "658676382053826571": {
       "name": "fectoo",
-      "count": 40,
+      "count": 0,
       "uid": 658676382053826571
     },
     "1285691249428271114": {
-      "name": "Jo4co!",
-      "count": 1,
+      "name": "Jo4cofv\u01c3 \u30cd",
+      "count": 0,
       "uid": 1285691249428271114
     },
     "712552426204561488": {
@@ -121,24 +106,24 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 209,
+      "count": 144,
       "uid": 1458092102322880672
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 29,
+      "count": 17,
       "uid": 821412756729233439
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 215,
+      "count": 59,
       "uid": 1407405613239238719
     }
   },
   "modlog": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 46,
+      "count": 7,
       "uid": 871517104753479680
     },
     "1217199976367788032": {
@@ -147,43 +132,38 @@
       "uid": 1217199976367788032
     },
     "1374404489137885315": {
-      "name": "! zeww1x",
+      "name": "! 26",
       "count": 0,
       "uid": 1374404489137885315
     },
-    "1123320598265868298": {
-      "name": "Jd\u00f8t",
-      "count": 21,
-      "uid": 1123320598265868298
-    },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 26,
+      "count": 10,
       "uid": 842738895913615370
     },
     "1285691249428271114": {
-      "name": "Jo4co!",
-      "count": 2,
+      "name": "Jo4cofv\u01c3 \u30cd",
+      "count": 0,
       "uid": 1285691249428271114
     },
     "658676382053826571": {
       "name": "fectoo",
-      "count": 5,
+      "count": 0,
       "uid": 658676382053826571
     },
     "729014516469465098": {
       "name": "\ud835\udcdb\ud835\udcd0\ud835\udce6\ud835\udd01\ud835\udce2\ud835\udcea\ud835\udcff\ud835\udcfb\ud835\udcf2\ud835\udd01\ud835\udce8\ud835\udce3\u4e44",
-      "count": 1,
+      "count": 0,
       "uid": 729014516469465098
     },
     "916260880876986378": {
       "name": "Psychosystems",
-      "count": 1,
+      "count": 0,
       "uid": 916260880876986378
     },
     "1451386401106034718": {
       "name": "Adzbot!",
-      "count": 1,
+      "count": 0,
       "uid": 1451386401106034718
     },
     "994646489387237407": {
@@ -193,27 +173,32 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 75,
+      "count": 35,
       "uid": 1458092102322880672
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 3,
+      "count": 2,
       "uid": 821412756729233439
+    },
+    "1390634801605644459": {
+      "name": "dxrth1x\ud83c\uddfa\ud83c\uddf8\ud83c\udfc6",
+      "count": 0,
+      "uid": 1390634801605644459
     },
     "916831189921333298": {
       "name": "Yxir",
-      "count": 0,
+      "count": 1,
       "uid": 916831189921333298
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 7,
+      "count": 4,
       "uid": 1407405613239238719
     },
     "987843990734905414": {
       "name": "Use Code Wavedropmaps",
-      "count": 3,
+      "count": 1,
       "uid": 987843990734905414
     },
     "1252988949060911177": {
@@ -248,7 +233,7 @@
     },
     "1391037065717747933": {
       "name": "MultiChrome+",
-      "count": 1,
+      "count": 0,
       "uid": 1391037065717747933
     },
     "1322663710862344313": {
@@ -260,63 +245,55 @@
   "message": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 298,
+      "count": 27,
       "uid": 871517104753479680,
-      "days_of_week_active": 7
+      "days_of_week_active": 1
     },
     "1217199976367788032": {
       "name": "lugga",
-      "count": 99,
+      "count": 11,
       "uid": 1217199976367788032,
-      "days_of_week_active": 7
+      "days_of_week_active": 1
     },
     "1374404489137885315": {
-      "name": "! zeww1x",
-      "count": 36,
+      "name": "! 26",
+      "count": 4,
       "uid": 1374404489137885315,
-      "days_of_week_active": 5
-    },
-    "1123320598265868298": {
-      "name": "Jd\u00f8t",
-      "count": 138,
-      "uid": 1123320598265868298,
-      "days_of_week_active": 7
+      "days_of_week_active": 1
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 160,
+      "count": 28,
       "uid": 842738895913615370,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "1285691249428271114": {
-      "name": "Jo4co!",
-      "count": 14,
+      "name": "Jo4cofv\u01c3 \u30cd",
+      "count": 2,
       "uid": 1285691249428271114,
-      "days_of_week_active": 3
+      "days_of_week_active": 1
     },
     "658676382053826571": {
       "name": "fectoo",
-      "count": 56,
-      "uid": 658676382053826571,
-      "days_of_week_active": 5
+      "count": 0,
+      "uid": 658676382053826571
     },
     "729014516469465098": {
       "name": "\ud835\udcdb\ud835\udcd0\ud835\udce6\ud835\udd01\ud835\udce2\ud835\udcea\ud835\udcff\ud835\udcfb\ud835\udcf2\ud835\udd01\ud835\udce8\ud835\udce3\u4e44",
-      "count": 31,
+      "count": 11,
       "uid": 729014516469465098,
-      "days_of_week_active": 4
+      "days_of_week_active": 1
     },
     "916260880876986378": {
       "name": "Psychosystems",
-      "count": 21,
+      "count": 10,
       "uid": 916260880876986378,
-      "days_of_week_active": 4
+      "days_of_week_active": 1
     },
     "1451386401106034718": {
       "name": "Adzbot!",
-      "count": 15,
-      "uid": 1451386401106034718,
-      "days_of_week_active": 4
+      "count": 0,
+      "uid": 1451386401106034718
     },
     "994646489387237407": {
       "name": "godman4786",
@@ -325,39 +302,44 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 551,
+      "count": 131,
       "uid": 1458092102322880672,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 58,
+      "count": 4,
       "uid": 821412756729233439,
-      "days_of_week_active": 3
+      "days_of_week_active": 1
+    },
+    "1390634801605644459": {
+      "name": "dxrth1x\ud83c\uddfa\ud83c\uddf8\ud83c\udfc6",
+      "count": 0,
+      "uid": 1390634801605644459
     },
     "916831189921333298": {
       "name": "Yxir",
-      "count": 50,
+      "count": 11,
       "uid": 916831189921333298,
-      "days_of_week_active": 5
+      "days_of_week_active": 1
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 453,
+      "count": 44,
       "uid": 1407405613239238719,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "987843990734905414": {
       "name": "Use Code Wavedropmaps",
-      "count": 306,
+      "count": 46,
       "uid": 987843990734905414,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "1252988949060911177": {
       "name": "Mufasa",
-      "count": 93,
+      "count": 4,
       "uid": 1252988949060911177,
-      "days_of_week_active": 6
+      "days_of_week_active": 1
     },
     "712552426204561488": {
       "name": "yourlocalglaceon",
@@ -371,33 +353,29 @@
     },
     "1355275786545795153": {
       "name": "THRV b\u3072b",
-      "count": 4,
-      "uid": 1355275786545795153,
-      "days_of_week_active": 2
+      "count": 0,
+      "uid": 1355275786545795153
     },
     "1266776994910175317": {
       "name": "L\u035c\u0361o\u035c\u0361r\u035c\u0361d\u035c\u0361M\u035c\u0361a\u035c\u0361r\u035c\u0361k\u035c\u0361",
-      "count": 67,
+      "count": 5,
       "uid": 1266776994910175317,
-      "days_of_week_active": 4
+      "days_of_week_active": 1
     },
     "1226579855051849819": {
       "name": "Scofield is never high \ud83d\udead",
-      "count": 9,
-      "uid": 1226579855051849819,
-      "days_of_week_active": 2
+      "count": 0,
+      "uid": 1226579855051849819
     },
     "1391037065717747933": {
       "name": "MultiChrome+",
-      "count": 15,
-      "uid": 1391037065717747933,
-      "days_of_week_active": 2
+      "count": 0,
+      "uid": 1391037065717747933
     },
     "1322663710862344313": {
       "name": "Fahad",
-      "count": 42,
-      "uid": 1322663710862344313,
-      "days_of_week_active": 6
+      "count": 0,
+      "uid": 1322663710862344313
     }
   }
 }
