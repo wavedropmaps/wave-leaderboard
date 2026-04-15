@@ -1,1 +1,1 @@
-This is used to display informaiton about staff activity inside wave drop maps!
+This is used to display information about staff activity inside wave drop maps!
