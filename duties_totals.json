@@ -1,23 +1,23 @@
 {
   "_meta": {
-    "start_date": "12/04/2026",
-    "end_date": "18/04/2026",
-    "last_updated": "2026-04-20T04:31:30.195670+00:00"
+    "start_date": "19/04/2026",
+    "end_date": "25/04/2026",
+    "last_updated": "2026-04-20T12:26:37.575359+00:00"
   },
   "purge": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 63,
+      "count": 14,
       "uid": 871517104753479680
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 114,
+      "count": 9,
       "uid": 1458092102322880672
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 41,
+      "count": 18,
       "uid": 842738895913615370
     },
     "1285691249428271114": {
@@ -27,17 +27,17 @@
     },
     "1123320598265868298": {
       "name": "Jd\u00f8t",
-      "count": 37,
+      "count": 18,
       "uid": 1123320598265868298
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 174,
+      "count": 56,
       "uid": 1407405613239238719
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 16,
+      "count": 0,
       "uid": 821412756729233439
     }
   },
@@ -49,17 +49,17 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 136,
+      "count": 16,
       "uid": 1458092102322880672
     },
     "987843990734905414": {
       "name": "Use Code Wavedropmaps",
-      "count": 0,
+      "count": 31,
       "uid": 987843990734905414
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 17,
+      "count": 15,
       "uid": 842738895913615370
     },
     "916831189921333298": {
@@ -69,29 +69,29 @@
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 130,
+      "count": 15,
       "uid": 1407405613239238719
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 1,
+      "count": 3,
       "uid": 821412756729233439
     }
   },
   "role": {
     "1217199976367788032": {
       "name": "lugga",
-      "count": 60,
+      "count": 43,
       "uid": 1217199976367788032
     },
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 96,
+      "count": 23,
       "uid": 871517104753479680
     },
     "1374404489137885315": {
       "name": "! \u2082\u2086.",
-      "count": 20,
+      "count": 18,
       "uid": 1374404489137885315
     },
     "1252988949060911177": {
@@ -101,12 +101,12 @@
     },
     "1123320598265868298": {
       "name": "Jd\u00f8t",
-      "count": 38,
+      "count": 23,
       "uid": 1123320598265868298
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 169,
+      "count": 117,
       "uid": 842738895913615370
     },
     "1285691249428271114": {
@@ -121,8 +121,13 @@
     },
     "1102235338749005905": {
       "name": "mns jimbob!",
-      "count": 1,
+      "count": 0,
       "uid": 1102235338749005905
+    },
+    "1421465174644228116": {
+      "name": "Sabri",
+      "count": 2,
+      "uid": 1421465174644228116
     },
     "994646489387237407": {
       "name": "godman4786",
@@ -131,29 +136,29 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 320,
+      "count": 21,
       "uid": 1458092102322880672
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 32,
+      "count": 7,
       "uid": 821412756729233439
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 166,
+      "count": 63,
       "uid": 1407405613239238719
     }
   },
   "modlog": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 37,
+      "count": 2,
       "uid": 871517104753479680
     },
     "1217199976367788032": {
       "name": "lugga",
-      "count": 3,
+      "count": 2,
       "uid": 1217199976367788032
     },
     "1374404489137885315": {
@@ -163,12 +168,12 @@
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 46,
+      "count": 7,
       "uid": 842738895913615370
     },
     "1123320598265868298": {
       "name": "Jd\u00f8t",
-      "count": 6,
+      "count": 1,
       "uid": 1123320598265868298
     },
     "1285691249428271114": {
@@ -178,7 +183,7 @@
     },
     "729014516469465098": {
       "name": "\ud835\udcdb\ud835\udcd0\ud835\udce6\ud835\udd01\ud835\udce2\ud835\udcea\ud835\udcff\ud835\udcfb\ud835\udcf2\ud835\udd01\ud835\udce8\ud835\udce3\u4e44",
-      "count": 1,
+      "count": 0,
       "uid": 729014516469465098
     },
     "916260880876986378": {
@@ -198,32 +203,27 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 79,
+      "count": 5,
       "uid": 1458092102322880672
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 6,
+      "count": 3,
       "uid": 821412756729233439
-    },
-    "1390634801605644459": {
-      "name": "prxda\ud83c\uddfa\ud83c\uddf8\ud83c\udfc6",
-      "count": 0,
-      "uid": 1390634801605644459
     },
     "916831189921333298": {
       "name": "yair_77",
-      "count": 7,
+      "count": 4,
       "uid": 916831189921333298
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 37,
+      "count": 8,
       "uid": 1407405613239238719
     },
     "987843990734905414": {
       "name": "Use Code Wavedropmaps",
-      "count": 1,
+      "count": 2,
       "uid": 987843990734905414
     },
     "1252988949060911177": {
@@ -260,57 +260,56 @@
   "message": {
     "871517104753479680": {
       "name": "Fantastic",
-      "count": 162,
+      "count": 20,
       "uid": 871517104753479680,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "1217199976367788032": {
       "name": "lugga",
-      "count": 235,
+      "count": 126,
       "uid": 1217199976367788032,
-      "days_of_week_active": 6
+      "days_of_week_active": 2
     },
     "1374404489137885315": {
       "name": "! \u2082\u2086.",
-      "count": 110,
+      "count": 10,
       "uid": 1374404489137885315,
-      "days_of_week_active": 6
+      "days_of_week_active": 1
     },
     "842738895913615370": {
       "name": "EXM meandme7634567",
-      "count": 166,
+      "count": 42,
       "uid": 842738895913615370,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "1123320598265868298": {
       "name": "Jd\u00f8t",
-      "count": 116,
+      "count": 13,
       "uid": 1123320598265868298,
-      "days_of_week_active": 6
+      "days_of_week_active": 2
     },
     "1285691249428271114": {
       "name": "Jo4cofv\u01c3 \u30cd",
-      "count": 2,
-      "uid": 1285691249428271114,
-      "days_of_week_active": 1
+      "count": 0,
+      "uid": 1285691249428271114
     },
     "729014516469465098": {
       "name": "\ud835\udcdb\ud835\udcd0\ud835\udce6\ud835\udd01\ud835\udce2\ud835\udcea\ud835\udcff\ud835\udcfb\ud835\udcf2\ud835\udd01\ud835\udce8\ud835\udce3\u4e44",
-      "count": 17,
+      "count": 1,
       "uid": 729014516469465098,
-      "days_of_week_active": 3
+      "days_of_week_active": 1
     },
     "916260880876986378": {
       "name": "Psychosystems",
-      "count": 61,
+      "count": 17,
       "uid": 916260880876986378,
-      "days_of_week_active": 7
+      "days_of_week_active": 1
     },
     "1421465174644228116": {
       "name": "Sabri",
-      "count": 3,
+      "count": 38,
       "uid": 1421465174644228116,
-      "days_of_week_active": 1
+      "days_of_week_active": 2
     },
     "994646489387237407": {
       "name": "godman4786",
@@ -319,44 +318,38 @@
     },
     "1458092102322880672": {
       "name": "Slax",
-      "count": 439,
+      "count": 52,
       "uid": 1458092102322880672,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "821412756729233439": {
       "name": "It\u2019s Dolphin",
-      "count": 36,
+      "count": 28,
       "uid": 821412756729233439,
-      "days_of_week_active": 6
-    },
-    "1390634801605644459": {
-      "name": "prxda\ud83c\uddfa\ud83c\uddf8\ud83c\udfc6",
-      "count": 0,
-      "uid": 1390634801605644459
+      "days_of_week_active": 2
     },
     "916831189921333298": {
       "name": "yair_77",
-      "count": 30,
+      "count": 14,
       "uid": 916831189921333298,
-      "days_of_week_active": 5
+      "days_of_week_active": 2
     },
     "1407405613239238719": {
       "name": "Tay Tay",
-      "count": 542,
+      "count": 273,
       "uid": 1407405613239238719,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "987843990734905414": {
       "name": "Use Code Wavedropmaps",
-      "count": 352,
+      "count": 174,
       "uid": 987843990734905414,
-      "days_of_week_active": 7
+      "days_of_week_active": 2
     },
     "1252988949060911177": {
       "name": "Mufasa",
-      "count": 5,
-      "uid": 1252988949060911177,
-      "days_of_week_active": 2
+      "count": 0,
+      "uid": 1252988949060911177
     },
     "712552426204561488": {
       "name": "yourlocalglaceon",
@@ -365,26 +358,26 @@
     },
     "1102235338749005905": {
       "name": "mns jimbob!",
-      "count": 0,
-      "uid": 1102235338749005905
+      "count": 4,
+      "uid": 1102235338749005905,
+      "days_of_week_active": 2
     },
     "1266776994910175317": {
       "name": "\u256d\u2500\u2500\u2500\u30fb\ud83d\udcab\u30fb\u2500\u2500\u2500\u256e    \u1d0d\u1d00\u0280\u1d0b \u2570\u2500\u2500\u2500\u30fb\ud83d\udcab\u30fb\u2500\u2500\u2500",
-      "count": 15,
+      "count": 11,
       "uid": 1266776994910175317,
-      "days_of_week_active": 3
+      "days_of_week_active": 1
     },
     "1391037065717747933": {
       "name": "MultiChrome+",
-      "count": 1,
-      "uid": 1391037065717747933,
-      "days_of_week_active": 1
+      "count": 0,
+      "uid": 1391037065717747933
     },
     "1322663710862344313": {
       "name": "Fahad",
-      "count": 14,
+      "count": 3,
       "uid": 1322663710862344313,
-      "days_of_week_active": 5
+      "days_of_week_active": 2
     }
   }
 }
