@@ -2,105 +2,105 @@
   "joaco_t6": {
     "purge": 0,
     "purge_weekly": 0,
-    "role": 1,
-    "modlog": 367,
-    "modlog_weekly": 0,
-    "role_weekly": 0,
-    "message": 4140,
-    "message_weekly": 2
+    "role": 3,
+    "modlog": 368,
+    "modlog_weekly": 1,
+    "role_weekly": 2,
+    "message": 4144,
+    "message_weekly": 4
   },
   "slaxmgmt": {
-    "purge": 5382,
-    "purge_weekly": 114,
-    "role": 9730,
-    "modlog": 991,
-    "modlog_weekly": 79,
-    "req": 4644,
-    "req_weekly": 136,
-    "role_weekly": 320,
-    "message": 17174,
-    "message_weekly": 440
+    "purge": 5466,
+    "purge_weekly": 56,
+    "role": 9886,
+    "modlog": 1014,
+    "modlog_weekly": 23,
+    "req": 4764,
+    "req_weekly": 72,
+    "role_weekly": 93,
+    "message": 17666,
+    "message_weekly": 492
   },
   "meandme7634567": {
-    "purge": 1216,
-    "purge_weekly": 41,
-    "role": 9381,
-    "modlog": 600,
-    "modlog_weekly": 46,
-    "req": 1367,
-    "req_weekly": 17,
-    "role_weekly": 169,
-    "message": 3693,
-    "message_weekly": 166
+    "purge": 1314,
+    "purge_weekly": 66,
+    "role": 9879,
+    "modlog": 637,
+    "modlog_weekly": 37,
+    "req": 1448,
+    "req_weekly": 52,
+    "role_weekly": 309,
+    "message": 3860,
+    "message_weekly": 167
   },
   "fantastic2": {
-    "purge": 488,
-    "purge_weekly": 63,
-    "role": 1538,
-    "modlog": 204,
-    "modlog_weekly": 37,
-    "req": 0,
-    "req_weekly": 0,
-    "role_weekly": 96,
-    "message": 1549,
-    "message_weekly": 162
+    "purge": 574,
+    "purge_weekly": 60,
+    "role": 1704,
+    "modlog": 244,
+    "modlog_weekly": 40,
+    "req": 7,
+    "req_weekly": 7,
+    "role_weekly": 118,
+    "message": 1726,
+    "message_weekly": 177
   },
   "itsdolphin": {
-    "purge": 156,
-    "purge_weekly": 16,
-    "role": 1015,
-    "modlog": 88,
-    "modlog_weekly": 6,
-    "req": 1,
-    "req_weekly": 1,
-    "role_weekly": 32,
-    "message": 1709,
-    "message_weekly": 36
+    "purge": 183,
+    "purge_weekly": 19,
+    "role": 1100,
+    "modlog": 118,
+    "modlog_weekly": 30,
+    "req": 26,
+    "req_weekly": 18,
+    "role_weekly": 56,
+    "message": 2234,
+    "message_weekly": 525
   },
   ".janue": {
-    "purge": 87,
-    "purge_weekly": 37,
-    "role": 541,
-    "modlog": 50,
-    "modlog_weekly": 6,
-    "role_weekly": 38,
-    "message": 536,
-    "message_weekly": 116
+    "purge": 136,
+    "purge_weekly": 28,
+    "role": 604,
+    "modlog": 52,
+    "modlog_weekly": 2,
+    "role_weekly": 39,
+    "message": 624,
+    "message_weekly": 88
   },
   "tayurboy111_222": {
-    "purge": 699,
-    "purge_weekly": 174,
-    "role": 1220,
-    "modlog": 45,
-    "modlog_weekly": 37,
-    "req": 307,
-    "req_weekly": 130,
-    "role_weekly": 166,
-    "message": 1320,
-    "message_weekly": 542
+    "purge": 966,
+    "purge_weekly": 178,
+    "role": 1485,
+    "modlog": 91,
+    "modlog_weekly": 46,
+    "req": 504,
+    "req_weekly": 114,
+    "role_weekly": 162,
+    "message": 2393,
+    "message_weekly": 1073
   },
   "fruss.": {
-    "modlog": 118,
-    "modlog_weekly": 1,
+    "modlog": 125,
+    "modlog_weekly": 7,
     "role": "Founder",
-    "req": 0,
-    "req_weekly": 0,
-    "message": 10561,
-    "message_weekly": 353
+    "req": 67,
+    "req_weekly": 36,
+    "message": 11259,
+    "message_weekly": 698
   },
   "psychosystems": {
     "modlog": 15,
     "modlog_weekly": 0,
     "role": "Head Dropmaps",
-    "message": 2060,
-    "message_weekly": 61
+    "message": 2124,
+    "message_weekly": 64
   },
   "svgsavrixyt": {
-    "modlog": 13,
+    "modlog": 14,
     "modlog_weekly": 1,
     "role": "Support",
-    "message": 715,
-    "message_weekly": 17
+    "message": 719,
+    "message_weekly": 4
   },
   "godman4786.": {
     "modlog": 0,
@@ -115,68 +115,74 @@
     "modlog_weekly": 0,
     "role": "Staff",
     "message": 667,
-    "message_weekly": 1
+    "message_weekly": 0
   },
-  "6d5b": {
+  "sabritheoneandonly": {
     "modlog": 0,
     "modlog_weekly": 0,
-    "role": 20,
-    "role_weekly": 20,
-    "message": 146,
-    "message_weekly": 110
+    "role": 103,
+    "role_weekly": 59,
+    "message": 548,
+    "message_weekly": 548
   },
-  "adz0792": {
-    "modlog": 1,
-    "modlog_weekly": 0,
-    "role": "Trial Staff",
-    "message": 15,
-    "message_weekly": 0
+  "6d5b": {
+    "modlog": 3,
+    "modlog_weekly": 3,
+    "role": 156,
+    "role_weekly": 88,
+    "message": 323,
+    "message_weekly": 177
   },
   "fahad_121212": {
     "modlog": 0,
     "modlog_weekly": 0,
     "role": "Trial Staff",
-    "message": 94,
-    "message_weekly": 14
+    "message": 201,
+    "message_weekly": 107
   },
-  "jimbobfnr": {
-    "modlog": 3,
-    "modlog_weekly": 0,
-    "role": 25,
-    "role_weekly": 1,
-    "message": 342,
-    "message_weekly": 0
-  },
-  "luca0903_11": {
-    "modlog": 3,
-    "modlog_weekly": 3,
-    "role": 60,
-    "role_weekly": 60,
-    "message": 457,
-    "message_weekly": 235
-  },
-  "markthegoat_w": {
-    "modlog": 0,
-    "modlog_weekly": 0,
-    "role": "Trial Staff",
-    "message": 82,
-    "message_weekly": 15
-  },
-  "turtle676543": {
+  "godeliciazao": {
     "modlog": 0,
     "modlog_weekly": 0,
     "role": "Trial Staff",
     "message": 0,
     "message_weekly": 0
   },
-  "yair_77": {
-    "modlog": 7,
-    "modlog_weekly": 7,
+  "luca0903_11": {
+    "modlog": 13,
+    "modlog_weekly": 10,
+    "role": 216,
+    "role_weekly": 104,
+    "message": 926,
+    "message_weekly": 469
+  },
+  "markthegoat_w": {
+    "modlog": 0,
+    "modlog_weekly": 0,
     "role": "Trial Staff",
-    "req": 1,
-    "req_weekly": 1,
-    "message": 80,
-    "message_weekly": 30
+    "message": 101,
+    "message_weekly": 19
+  },
+  "uwuhqq": {
+    "modlog": 0,
+    "modlog_weekly": 0,
+    "role": "Trial Staff",
+    "message": 7,
+    "message_weekly": 7
+  },
+  "vixxskiii1x": {
+    "modlog": 0,
+    "modlog_weekly": 0,
+    "role": "Trial Staff",
+    "message": 147,
+    "message_weekly": 147
+  },
+  "xonenfv": {
+    "modlog": 0,
+    "modlog_weekly": 0,
+    "role": 2,
+    "role_weekly": 2,
+    "message": 123,
+    "message_weekly": 123
   },
   "yazedfv": {
     "modlog": 0,
@@ -184,7 +190,7 @@
     "role": 146,
     "role_weekly": 0,
     "message": 150,
-    "message_weekly": 5
+    "message_weekly": 0
   },
   "yourlocalglaceon": {
     "modlog": 0,
